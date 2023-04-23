@@ -65,7 +65,7 @@ class ClientServeurChalet:
 #Code de test
 client = ClientServeurChalet('http://localhost:8000')
 
-#MATHIS: Cette partie de code de test est à retravailler
+#MATHIS: Cette partie de code de test est à retravailler (mettre les bons paramètres)
 client.obtenir_infosreservation('laurentien')
 client.obtenir_reservations('antarctic')
 client.ajout_reservation('laurentien', 'Bill le castor')
