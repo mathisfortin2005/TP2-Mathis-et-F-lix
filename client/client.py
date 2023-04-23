@@ -1,3 +1,12 @@
+"""
+TP2
+Noms : Mathis Fortin et Félix Chamberland
+Groupe : 00002
+Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
+Dernière modification : 2023-04-22
+Version 1
+"""
+
 import requests
 
 #Création de la classe ClientServeurChalet
@@ -48,12 +57,15 @@ class ClientServeurChalet:
         print(req.status_code)
         print(req.content)
 
+    #MATHIS: Je ne comprend pas trop ce qu'il faut faire et comment reconnaitre un administrateur
     #Pour administrateur, pour renvoyer toutes les réservations
     def liste_reservation(self):
         pass
 
 #Code de test
 client = ClientServeurChalet('http://localhost:8000')
+
+#MATHIS: Cette partie de code de test est à retravailler
 client.obtenir_infosreservation('laurentien')
 client.obtenir_reservations('antarctic')
 client.ajout_reservation('laurentien', 'Bill le castor')
