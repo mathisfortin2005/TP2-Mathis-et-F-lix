@@ -3,11 +3,11 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-04-22
+Dernière modification : 2023-04-29 12:12:03
 Version 1
 """
-#FIXME: Le prof a dit d'importer client.client.py mais comment?
-import client.py
+#FIXME: Le prof a dit d'importer client.client.py mais pourquoi?
+import client
 
 #Lecture du fichier CSV contenant les utilisateurs, leur type d'utilisateur et leur mot de passe
 with open('data/utilisateurs.csv', 'rt') as fichier_utilisateur:
