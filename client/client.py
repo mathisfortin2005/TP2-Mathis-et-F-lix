@@ -6,7 +6,7 @@ Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée obj
 Dernière modification : 2023-04-22
 Version 1
 """
-
+#FIXME: Les méthodes de la classe ClientServeurChalet me semblent trop simples non?
 import requests
 
 #Création de la classe ClientServeurChalet
@@ -24,6 +24,7 @@ class ClientServeurChalet:
         print(req.content)
 
     #Pour obtenir les informations sur les réservations d'un utilisateur (point 2 des consignes client)
+#FIXME: Pas certain de celui-là
     def obtenir_reservations(self, utilisateur):
         req = requests.get(self.__url_base + '/utilisateur/' + utilisateur)
         print(req.status_code)
@@ -51,83 +52,15 @@ class ClientServeurChalet:
         print(req.content)
 
     #Pour ajouter un utilisateur (point 6 consignes client)
-    def ajout_utilisateur(self, reservation, utilisateur):
+    def ajout_utilisateur(self, utilisateur):
         json_body = '{"nom": "' + utilisateur + '" }'
-        req = requests.post(self.__url_base + '/reservation/' + reservation, data=json_body)
+        req = requests.post(self.__url_base + '/utilisateur/' + utilisateur, data=json_body)
         print(req.status_code)
         print(req.content)
 
-    #MATHIS: Je ne comprend pas trop ce qu'il faut faire et comment reconnaitre un administrateur
-    #Pour administrateur, pour renvoyer toutes les réservations
+#TODO: Faire les 3 méthodes restantes
     def liste_reservation(self):
         pass
 
 #Code de test
 client = ClientServeurChalet('http://localhost:8000')
-
-#MATHIS: Cette partie de code de test est à retravailler (mettre les bons paramètres)
-client.obtenir_infosreservation('laurentien')
-client.obtenir_reservations('antarctic')
-client.ajout_reservation('laurentien', 'Bill le castor')
-client.remplacer_reservation('laurentien', 'Paulette la belette')
-client.supprimer_reservation('laurentien', 'Karen le furet')
-client.ajout_utilisateur('antarctic', 'Sylvain le pingouin')
-client.liste_reservation('laurentien')
-
-
-"""
-#Importation de impex
-from impex import impex
-
-#Définition de la classe Reservation
-class Reservation():
-
-    #Constructeur de la classe Reservation
-    def __init__(self):
-        Reservation.__id = ''
-        Reservation.__chalet = ''
-
-    #Méthode qui retourne l'information sur la réservation
-    def do_GET_reservation(self):
-        with open('', 'rt'):
-            return()
-
-    #Méthode qui retourne toutes les réservations de l'utilisateur
-    def do_GET_reservations(self):
-        pass
-
-    #Méthode qui ajoute une réservation
-    def do_POST_reservation(self):
-        with open('reservationId', 'w'):
-            pass
-
-    #Méthode qui remplace une réservation
-    def do_PUT_reservation(self):
-        pass
-
-
-    #Méthode qui supprime une réservation
-    def do_DELETE_reservation(self):
-        pass
-
-
-    #Méthode qui renvoie toutes les réservations triées par ordre de reservationld (pour les administrateurs)
-    def do_GET_reservations(self):
-        pass
-
-
-#Définition de la classe Utilisateur
-class Utilisateur():
-
-    #Constructeur de la classe Utilisateur
-    def __init__(self):
-
-
-    #Méthode qui ajoute un utilisateur:
-    def do_POST_utilisateur(self):
-        pass
-
-
-
-#Code pour les tests
-"""

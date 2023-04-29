@@ -3,19 +3,32 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-04-22
+Dernière modification : 2023-04-28 à 22h00
 Version 1
 """
+#TODO: Tests unaires pour chaque méthode
+#TODO: Gestion de cache
+#TODO: @Mathis: Ajouter des commentaires
 
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
+
+class SuperChalet():
+    Reservations.liste_reservation()
+    Chalets.liste_chalets()
+    Utilisateurs.liste_utilisateurs()
+
+
 class Reservations:
 
     def __init__(self, id, chalet, utilisateur):
+        if self.__reservations == None:
+            self.__reservation = []
         self.__id = id
         self.__chalet = chalet
         self.__utilisateur = utilisateur
+        self.__reservations = self.__reservations.append([self.__id, self.__chalet, self.__utilisateur])
 
     @property
     def id(self):
@@ -29,32 +42,51 @@ class Reservations:
     def utilisateur(self):
         return self.__utilisateur
 
-    def obtenir_infosreservation(self):
-        pass
+    def obtenir_infosreservation(self, id):
+        for x in range(len(self.__reservations)):
+            infosreservation = self.__reservations[x]
+            if y.index(id) != -1:
+                print(infosreservation)
+#TODO: Ajouter cas si plusieurs et si aucune réservation
 
     def obtenir_reservations(self, utilisateur):
-        pass
+        for x in range(len(self.__reservations)):
+            infosreservation = self.__reservations[x]
+            if y.index(utilisateur) != -1:
+                print(infosreservation)
 
-    #Pour administrateur seulement
-    def ajout_reservation(self):
-        pass
+    def ajout_reservation(self, id, chalet, utilisateur):
+        if id not in self.__id :
+            raise ValueError('Cette réservation existe déjà')
+        else:
+            self.__reservations = self.__reservations.append([id, chalet, utilisateur])
+#FIXME: Je ne sais pas comment ajouter l'objet Chalet et l'objet Utilisateur dans le liste de la classe objet Réservation
+#FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation
 
-    def remplacer_reservation(self):
+    def remplacer_reservation(self, id_reservation_a_remplacer):
         pass
+#TODO: @Mathis: Méthode pour remplacer une réservation
 
-    def supprimer_reservation(self):
-        pass
+
+    def supprimer_reservation(self, id):
+        for x in range(len(self.__reservations)):
+            infosreservation = self.__reservations[x]
+            if infosreservation.index(id) != -1:
+                del(self.__reservations[x])
 
     def liste_reservation(self):
-        pass
+        return(self.__reservations)
 
 class Chalets:
 
     def __init__(self, id, nom, url_image, geolocalisation):
+        if self.__chalets == None:
+            self.__chalets = []
         self.__id = id
         self.__nom = nom
         self.__url_image = url_image
         self.__geolocalisation = geolocalisation
+        self.__chalets = self.__chalets.append([self.__id, self.__nom, self.__url_image, self.__geolocalisation])
 
     @property
     def id(self):
@@ -72,8 +104,12 @@ class Chalets:
     def geolocalisation(self):
         return self.__geolocalisation
 
-    def ajout_utilisateur(self):
-        pass
+    def ajout_chalet(self, id, nom, url_image, geolocalisation):
+            if id in self.__id and if nom in self.__nom and if geolocalisation in self.__geolocalisation :
+                raise ValueError('Ce chalet existe déjà')
+            else:
+                self.__chalets = self.__chalets.append([id, nom, url_image, geolocalisation])
+#FIXME: Je ne sais pas comment ajouter l'objet Géolocalisation dans la liste de la classe Chalet
 
 class Geolocalisation_Chalet:
 
@@ -91,12 +127,18 @@ class Geolocalisation_Chalet:
 
 class Utilisateurs:
 
+
     def __init__(self, email, mot_de_passe, nom, prenom, adresse):
+        if self.__utilisateurs == None:
+            self.__utilisateurs = []
         self.__email = email
         self.__mot_de_passe = mot_de_passe
         self.__nom = nom
         self.__prenom = prenom
         self.__adresse = adresse
+        self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
+        adresse = Adresses(no_civique, rue, ville, province, pays, code_postal)
+#FIXME : Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
 
     @property
     def email_utilisateur(self):
@@ -118,11 +160,23 @@ class Utilisateurs:
     def adresse_utilisateur(self):
         return self.__adresse
 
-    def ajout_utilisateur(self):
-        pass
+    def ajout_utilisateur(self, email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal):
+        if email in self.__email and if nom in self.__nom and if prenom in self.__prenom:
+            raise ValueError('Cet utilisateur existe déjà')
+        else:
+            self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
+            adresse = Adresses(no_civique, rue, ville, province, pays, code_postal)
+#FIXME: Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
 
-    def obtenir_infosutilisateur(self):
-        pass
+    def obtenir_infosutilisateur(self, email):
+        if email not in self.__utilisateurs:
+            raise ValueError("Aucun utilisateur n'a le courriel suivant:" + email)
+        else:
+            for x in range(len(self.__utilisateurs)):
+                infosutilisateur = self.__reservations[x]
+                if infosutilisateur.index(email) != -1:
+                    print(infosreservation)
+
 
 class Adresses:
 
@@ -133,6 +187,7 @@ class Adresses:
         self.__province = province
         self.__pays = pays
         self.__code_postal = code_postal
+        self.__adresse = [self.__no_civique, self.__rue, self.__ville, self.__province, self.__pays, self.__code_postal]
 
     @property
     def no_civique(self):
@@ -158,11 +213,11 @@ class Adresses:
     def code_postal(self):
         return self.__code_postal
 
-#MATHIS : Je n'ai rien touché dans cette partie mais c'est certain qu'il faudra la retravailler
+#TODO: Toute cette partie est à regarder, je ne la comprends pas.
 class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
 
     # variable de classe
-    zoo = Zoo()
+SuperChalet = SuperChalet()
 #MATHIS: Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi
     def do_GET(self):
         headers = self.headers
@@ -218,28 +273,4 @@ from client import client
 from http.server import HTTPServer
 # Le serveur va ecouter sur localhost:8080
 httpd = HTTPServer(('localhost', 8080), client)
-
-#Définition de la classe Chalet
-class Chalet():
-
-    #Constructeur de la classe Chalet
-    def __init__(self):
-        pass
-
-    #Méthode pour ajouter un chalet
-    def do_POST_chalet(self):
-        pass
-
-    #Méthode pour retourner les informations d'un chalet
-    def do_GET_chalet(self):
-        pass
-
-# Commence a 'servir' les connections
-try:
-    httpd.serve_forever()
-except KeyboardInterrupt:
-    pass
-
-
-#Code pour les tests
 """
