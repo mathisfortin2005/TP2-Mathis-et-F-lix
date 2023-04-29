@@ -3,6 +3,7 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+<<<<<<< HEAD
         <entry key="/impex/data/Chalet.CSV">
           <value>
             <Attribute>
@@ -17,6 +18,8 @@
             </Attribute>
           </value>
         </entry>
+=======
+>>>>>>> origin/main
         <entry key="/impex/data/chalets.csv">
           <value>
             <Attribute>
