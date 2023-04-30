@@ -6,7 +6,8 @@ Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée obj
 Dernière modification : 2023-04-29 12:12:03
 Version 1
 """
-#FIXME: Les méthodes de la classe ClientServeurChalet me semblent trop simples non?
+#FIXME: Les méthodes de la classe ClientServeurChalet me semblent trop simples non? (JE PENSE QUE C'EST CORRECT)
+
 import requests
 
 #Création de la classe ClientServeurChalet
@@ -24,7 +25,7 @@ class ClientServeurChalet:
         print(req.content)
 
     #Pour obtenir les informations sur les réservations d'un utilisateur (point 2 des consignes client)
-#FIXME: Pas certain de celui-là
+#FIXME: Pas certain de celui-là (il est correct)
     def obtenir_reservations(self, utilisateur):
         req = requests.get(self.__url_base + '/utilisateur/' + utilisateur)
         print(req.status_code)
@@ -51,16 +52,35 @@ class ClientServeurChalet:
         print(req.status_code)
         print(req.content)
 
-    #Pour ajouter un utilisateur (point 6 consignes client)
+    #our ajouter un utilisateur (point 6 consignes client)
     def ajout_utilisateur(self, utilisateur):
         json_body = '{"nom": "' + utilisateur + '" }'
         req = requests.post(self.__url_base + '/utilisateur/' + utilisateur, data=json_body)
         print(req.status_code)
         print(req.content)
 
-#TODO: @Félix: Faire les 3 méthodes restantes
-    def liste_reservation(self):
-        pass
+#TODO: @Félix: Faire les 3 méthodes restantes (FAIT, il reste juste à confirmer que ça fonctionne)
+
+    def liste_reservations(self): #Pas sur de ça
+        req = requests.get(self.__url_base + '/reservations/' + reservation)
+        items = req.json()
+        print(items.sort())
+
+    def ajout_chalet(self, chalet):
+        json_body = '{"nom": "' + chalet + '" }'
+        req = requests.post(self.__url_base + '/chalet/' + chalet, data=json_body)
+        print(req.status_code)
+        print(req.content)
+
+    def informations_chalet(self, chalet):
+        req = requests.get(self.__url_base + '/chalet/' + chalet)
+        print(req.status_code)
+        print(req.content)
+
+    def disponibilité_chalet(self, plage): #Pas sur de savoir comment faire, mais je pense que ça te donne les différentes plages horaire
+        req = requests.get(self.__url_base + '/plage/' + plage)
+        print(req.status_code)
+        print(req.content)
 
 #Code de test
 client = ClientServeurChalet('http://localhost:8000')
