@@ -53,8 +53,12 @@ class Reservations:
         for x in range(len(self.__reservations)):  #La variable x sert d'itérateur
             infosreservation = self.__reservations[x]
             if infosreservation.index(id) != -1:
-                print(infosreservation)
-#TODO: Ajouter cas si plusieurs et si aucune réservation
+                print("La réservation est :" + infosreservation)
+            elif inforeservation.index(id) = -1:
+                print("Il n'y a pas de réservations")
+            else :
+                print("Les réservations sont" + inforeservation)
+#TODO: Ajouter cas si plusieurs et si aucune réservation (FAIT)
 
     #Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
     def obtenir_reservations(self, utilisateur):
@@ -65,17 +69,21 @@ class Reservations:
 
     #Méthode pour ajouter une réservation
     def ajout_reservation(self, id, chalet, utilisateur):
-        if id not in self.__id:
+        if id not in self.__id.keys(): #tu n'avais pas mis le .keys()
             raise ValueError('Cette réservation existe déjà')
         else:
             self.__reservations = self.__reservations.append([id, chalet, utilisateur])
-#FIXME: Je ne sais pas comment ajouter l'objet Chalet et l'objet Utilisateur dans le liste de la classe objet Réservation
-#FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation
+#FIXME: Je ne sais pas comment ajouter l'objet Chalet et l'objet Utilisateur dans le liste de la classe objet Réservation (j'ai rajouter le .keys() et je crois que ca fonctionne comme ca)
+#FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation (je pense pas)
 
     #Méthode pour remplacer une réservation
     def remplacer_reservation(self, id_reservation_a_remplacer):
-        pass
-#TODO: @Mathis: Méthode pour remplacer une réservation
+        for x in range(len(self.__reservations)):
+            infosreservation = self.__reservations[x]
+            if infosreservation.index(id) != id_reservation_a_remplacer:
+                del(self.__reservations[x])
+                infosreservation.append(id_reservation_a_remplacer)
+#TODO: @Mathis: Méthode pour remplacer une réservation (FAIT)
 
     #Méthode pour supprimer une réservation
     def supprimer_reservation(self, id):
@@ -124,7 +132,7 @@ class Chalets:
             raise ValueError('Ce chalet existe déjà')
         else:
             self.__chalets = self.__chalets.append([id, nom, url_image, geolocalisation])
-#FIXME: Je ne sais pas comment ajouter l'objet Géolocalisation dans la liste de la classe Chalet
+#FIXME: Je ne sais pas comment ajouter l'objet Géolocalisation dans la liste de la classe Chalet (Je comprends pas normalement de la façon que tu l'As fait c'est sensé fonctionner?)
 
 
 #Création de la classe Geolocalisation_Chalet qui sert à créer des objets de position (latitude, longitude)
