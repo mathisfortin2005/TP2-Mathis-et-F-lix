@@ -17,7 +17,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 #Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
 class SuperChalet:
-    Reservations.liste_reservation()
+    Reservations.liste_reservations()
     Chalets.liste_chalets()
     Utilisateurs.liste_utilisateurs()
 #FIXME: Ma référence ne semble pas bonne ici
@@ -54,11 +54,11 @@ class Reservations:
             infosreservation = self.__reservations[x]
             if infosreservation.index(id) != -1:
                 print("La réservation est :" + infosreservation)
-            elif inforeservation.index(id) = -1:
+            elif inforeservation.index(id) == -1:
                 print("Il n'y a pas de réservations")
             else :
                 print("Les réservations sont" + inforeservation)
-#TODO: Ajouter cas si plusieurs et si aucune réservation (FAIT)
+#
 
     #Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
     def obtenir_reservations(self, utilisateur):
@@ -73,8 +73,7 @@ class Reservations:
             raise ValueError('Cette réservation existe déjà')
         else:
             self.__reservations = self.__reservations.append([id, chalet, utilisateur])
-#FIXME: Je ne sais pas comment ajouter l'objet Chalet et l'objet Utilisateur dans le liste de la classe objet Réservation (j'ai rajouter le .keys() et je crois que ca fonctionne comme ca)
-#FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation (je pense pas)
+#FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation (ajouter plage horaire)
 
     #Méthode pour remplacer une réservation
     def remplacer_reservation(self, id_reservation_a_remplacer):
@@ -83,7 +82,7 @@ class Reservations:
             if infosreservation.index(id) != id_reservation_a_remplacer:
                 del(self.__reservations[x])
                 infosreservation.append(id_reservation_a_remplacer)
-#TODO: @Mathis: Méthode pour remplacer une réservation (FAIT)
+
 
     #Méthode pour supprimer une réservation
     def supprimer_reservation(self, id):
