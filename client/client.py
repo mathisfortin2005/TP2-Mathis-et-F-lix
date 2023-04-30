@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-04-29 12:12:03
+Dernière modification : 2023-04-30 20:07:04
 Version 1
 """
 # FIXME: Les méthodes de la classe ClientServeurChalet me semblent trop simples non? (JE PENSE QUE C'EST CORRECT)
@@ -86,7 +86,7 @@ class ClientServeurChalet:
         print(req.status_code)
         print(req.content)
 
-    def disponibilité_chalet(self, plage):
+    def disponibilite_chalet(self, plage):
         req = requests.get(self.__url_base + '/plage/' + plage)
         print(req.status_code)
         print(req.content)

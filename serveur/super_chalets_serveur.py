@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-04-29 à 12:12:03
+Dernière modification : 2023-04-30 20:07:04
 Version 1
 """
 #TODO: Tests unitaires pour chaque méthode
@@ -94,6 +94,7 @@ class Reservations:
     #Méthode pour retourner la liste des réservations
     def liste_reservation(self):
         return self.__reservations
+
 
 #Créations de la classe Chalets qui sert à créer des objets Chalet
 class Chalets:
@@ -206,7 +207,7 @@ class Utilisateurs:
             for x in range(len(self.__utilisateurs)):  #La variable x sert d'itérateur
                 infosutilisateur = self.__utilisateurs[x]
                 if infosutilisateur.index(email) != -1:
-                    print(infosreservation)
+                    print(infosutilisateur)
 
 
 #Création de la classe Adresses qui sert à créer des objets Adresse
@@ -252,43 +253,95 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
 
     #Variable de classe
     super_chalet = SuperChalet()
-#TODO: Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi
+#TODO: Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi (pas eu le temps de travailler sur ça)
+    # Point d'entrée pour toutes les requêtes de type GET
     def do_GET(self):
+        # self.headers contient tous les entêtes de la requête
         headers = self.headers
+        # contient le chemin d'accès de la ressource demandé ex: /enclos/...
         path = self.path
-        if path.startswith('/enclos/'):
+        # Gère les chemin d'accès (path) de type GET /enclos/{nom de l'enclos}
+        if path.startswith('/reservation/'):
+            # permet d'aller chercher le {nom de l'enclos}
             enclos = path.split('/')[2]
-            content = 'Enclos: ' + enclos + ' -> ' + str(self.super_chalet.enclos[enclos])
+            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
+            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
+            # Renvoyer le code 200 pour dire au client que c'est un succès
             self.send_response(200)
+            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
+            self.end_headers()
+            self.wfile.write(bytes(content, 'utf-8'))
+        if path.startswith('/enclos/'):
+            # permet d'aller chercher le {nom de l'enclos}
+            enclos = path.split('/')[2]
+            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
+            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
+            # Renvoyer le code 200 pour dire au client que c'est un succès
+            self.send_response(200)
+            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
+            self.end_headers()
+            self.wfile.write(bytes(content, 'utf-8'))
+        if path.startswith('/enclos/'):
+            # permet d'aller chercher le {nom de l'enclos}
+            enclos = path.split('/')[2]
+            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
+            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
+            # Renvoyer le code 200 pour dire au client que c'est un succès
+            self.send_response(200)
+            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
+            self.end_headers()
+            self.wfile.write(bytes(content, 'utf-8'))
+        if path.startswith('/enclos/'):
+            # permet d'aller chercher le {nom de l'enclos}
+            enclos = path.split('/')[2]
+            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
+            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
+            # Renvoyer le code 200 pour dire au client que c'est un succès
+            self.send_response(200)
+            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
             self.end_headers()
             self.wfile.write(bytes(content, 'utf-8'))
         else:
-            self.send_response(542, 'enclos non trouve')
+            # Gère le cas ou le chemin d'accès n'est pas trouvé
+            # On pourrait aussi gérer les erreurs
+            self.send_response(500, 'enclos non trouve')
             self.end_headers()
 
+    # Permet de gérer l'ajout d'enclos ou l'ajout d'animaux dans un enclos
     def do_POST(self):
+        # Chemin d'accès retourné par la requête
         path = self.path
+        # Cas d'ajout un enclos POST /enclos
         if path == '/enclos':
+            # L'entête content-length contient la longueur du contenu du corps de la requête POST
             content_length = int(self.headers['Content-Length'])
             # lecture entiere du corps du POST
             body = self.rfile.read(content_length)
+            # Lecture du body json vers un dictionnaire Python
             json_str = json.loads(body)
             try:
-                self.super_chalet.ajout_enclos(json_str['nom'])
+                # Appel de la méthode de zoo pour ajouter un enclos
+                self.zoo.ajout_enclos(json_str['nom'])
                 self.send_response(200)
             except ValueError:
-                self.send_response(542, 'Enclos existant')
+                # La méthode de zoo a fait un raise d'une exception
+                self.send_response(500, 'Enclos existant')
             self.end_headers()
+        # Cas ajout d'animal dans un enclos POST /enclos/{nom enclos}
         elif path.startswith('/enclos/'):
+            # Aller chercher le nom de l'enclos
             enclos = path.split('/')[2]
+            # Entête indiquant le nombre d'octets (bytes) à lire
             content_length = int(self.headers['Content-Length'])
             # lecture entiere du corps du POST
             body = self.rfile.read(content_length)
+            # Lecture du body json vers un dictionnaire Python
             json_str = json.loads(body)
-            self.super_chalet.ajout_animal(enclos, json_str['nom'])
+            # Appel de la méthode de zoo pour ajouter un animal
+            self.zoo.ajout_animal(enclos, json_str['nom'])
+            # HTTP status 200 OK
             self.send_response(200)
             self.end_headers()
-
 
 class ServeurTest:
 
@@ -300,11 +353,3 @@ class ServeurTest:
 
 
 serveur = ServeurTest.run()
-
-"""
-#Importation des modules nécessaires
-from client import client
-from http.server import HTTPServer
-# Le serveur va ecouter sur localhost:8080
-httpd = HTTPServer(('localhost', 8080), client)
-"""
