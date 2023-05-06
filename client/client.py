@@ -26,7 +26,6 @@ class ClientServeurChalet:
         print(req.content)
 
     # Pour obtenir les informations sur les réservations d'un utilisateur (point 2 des consignes client)
-    # FIXME: Pas certain de celui-là (il est correct)
     def obtenir_reservations(self, utilisateur):
         req = requests.get(self.__url_base + '/utilisateur/' + utilisateur)
         print(req.status_code)

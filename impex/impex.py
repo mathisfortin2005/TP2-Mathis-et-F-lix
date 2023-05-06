@@ -9,6 +9,7 @@ Version 1
 #FIXME: Pourquoi importer .client.client.py
 from client import client
 import datetime
+#import pickle
 import csv
 import json
 
@@ -29,10 +30,11 @@ with open('data/reservations.xml', 'rt') as fichier_reservations:
     fichier_reservations.read()
 
 #Méthode pour exporter les données de réservations dans un fichier "export_{timestamp}.csv" dans le format CSV
+'''
 @staticmethod
 def export_csv(utilisateurs_json):
     #Pour déserialiser utilisateurs_json en un objet Python contenant un document JSON
-    utilisateur = csv.loads(utilisateurs_json)
+    utilisateur = csv.dumps(utilisateurs_json)
     #Pour créer un nom de fichier en fonction du temps
     timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
     nom_fichier = f'export_{timestamp}.csv'
@@ -45,9 +47,28 @@ def export_csv(utilisateurs_json):
         #Pour écrire les données des réservations
         csv_writer.writerow = ([utilisateur[''], utilisateur['']])
 #TODO: Compléter lignes 43 et 45
+'''
+
+#utilisateurs = [['m@g.com', 'z', 'MF', 'CK', [26, 'rue des Cavaliers', 'St-Simon', 'QC', 'Canada', 'G3V 2V4']],['email', 'mot_de_passe', 'nom', 'prenom', ['no_civique', 'rue', 'ville', 'province', 'pays', 'code_postal']]]
+
+#Pour créer un nom de fichier en fonction du temps
+timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
+nom_fichier = f'export_{timestamp}.csv'
+#Pour ouvrir le fichier en mode écriture
+with open('..data/reservations.xml', 'w', newline='') as fichier_csv:
+#FIXME: C'est quoi le lien vers le fichier reservations.xml?
+    #Pour créer un objet pour écrire dans un fichier csv
+    csv_writer = csv.writer(fichier_csv, delimiter=',')
+    #Pour écrire les en-têtes de colonne
+    csv_writer.writerow = ([''])
+    for x in len(utilisateurs):
+#FIXME: Comment récupérer les utilisateurs du fichier reservations.xml?
+        #Pour écrire les données des réservations
+        csv_writer.writerow = (utilisateur[x])
+
 
 #Méthode pour exporter les données de réservations dans un fichier "export_{timestamp}.json" dans le format JSON
-@staticmethod
+#@staticmethod
 def export_json(reservations_csv):
     #Pour sérialiser reservations_csv en une string formatée en JSON
     reservation = json.dumps(reservations_csv)
