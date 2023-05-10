@@ -56,13 +56,13 @@ timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
 nom_fichier = f'export_{timestamp}.csv'
 #Pour ouvrir le fichier en mode écriture
 with open('..data/reservations.xml', 'w', newline='') as fichier_csv:
-#FIXME: C'est quoi le lien vers le fichier reservations.xml?
+
     #Pour créer un objet pour écrire dans un fichier csv
     csv_writer = csv.writer(fichier_csv, delimiter=',')
     #Pour écrire les en-têtes de colonne
     csv_writer.writerow = ([''])
     for x in len(utilisateurs):
-#FIXME: Comment récupérer les utilisateurs du fichier reservations.xml?
+        utilisateur[x].open(fichier_csv)
         #Pour écrire les données des réservations
         csv_writer.writerow = (utilisateur[x])
 

@@ -6,9 +6,10 @@ Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée obj
 Dernière modification : 2023-04-30 20:07:04
 Version 1
 """
-# FIXME: Les méthodes de la classe ClientServeurChalet me semblent trop simples non? (JE PENSE QUE C'EST CORRECT)
+
 
 import requests
+import unittest
 
 
 # Création de la classe ClientServeurChalet
@@ -90,6 +91,32 @@ class ClientServeurChalet:
         print(req.status_code)
         print(req.content)
 
+class Testobtenir_infosreservation(unittest.TestCase):
 
-# Code de test
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(),req,'reservation')
+
+        with self.assertRasies(TypeError) :
+            s.split(2)
+class Testinformationschalet(unittest.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(), req, 'chalet')
+
+        with self.assertRasies(TypeError):
+            s.split(2)
+
+class Testdisponibilite_chalet(unittest.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(), req, 'plage')
+
+        with self.assertRasies(TypeError):
+            s.split(2)
+
+
+        # Code de test
 client = ClientServeurChalet('http://localhost:8000')
