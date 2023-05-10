@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-04-30 20:07:04
+Dernière modification : 2023-05-10 10:58:39
 Version 1
 """
 
@@ -53,13 +53,14 @@ class ClientServeurChalet:
         print(req.status_code)
         print(req.content)
 
-    # our ajouter un utilisateur (point 6 consignes client)
+    # Pour ajouter un utilisateur (point 6 consignes client)
     def ajout_utilisateur(self, utilisateur):
         json_body = '{"nom": "' + utilisateur + '" }'
         req = requests.post(self.__url_base + '/utilisateur/' + utilisateur, data=json_body)
         print(req.status_code)
         print(req.content)
 
+    # Pour obtenir toutes les réservations triées par ordre croissant de leur ID (point 7 consignes client)
     def liste_reservations(self):
         req = requests.get(self.__url_base + '/reservations/' + reservations)
         items = req.json()
@@ -75,22 +76,26 @@ class ClientServeurChalet:
         items = req.json()
         print(items.sort())
 
+    # Pour ajouter un chalet (point 8 consignes client)
     def ajout_chalet(self, chalet):
         json_body = '{"nom": "' + chalet + '" }'
         req = requests.post(self.__url_base + '/chalet/' + chalet, data=json_body)
         print(req.status_code)
         print(req.content)
 
+    # Pour retourner les informations d'un chalet (point 9 consignes client)
     def informations_chalet(self, chalet):
         req = requests.get(self.__url_base + '/chalet/' + chalet)
         print(req.status_code)
         print(req.content)
 
+    # Pour créer une plage de disponibilité pour le chalet
     def disponibilite_chalet(self, plage):
         req = requests.get(self.__url_base + '/plage/' + plage)
         print(req.status_code)
         print(req.content)
 
+#Tests unitaires
 class Testobtenir_infosreservation(ut.TestCase):
 
     def test_split(self):
@@ -116,7 +121,8 @@ class Testdisponibilite_chalet(ut.TestCase):
 
         with self.assertRasies(TypeError):
             s.split(2)
+#FIXME: Ce ne serait pas assertRaises()?
+#TODO: Faire les autres méthodes de test
 
-
-        # Code de test
+# Code de test
 client = ClientServeurChalet('http://localhost:8000')

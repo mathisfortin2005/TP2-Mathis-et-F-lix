@@ -3,30 +3,31 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-04-30 20:07:04
+Dernière modification : 2023-05-10 10:58:39
 Version 1
 """
-#TODO: Tests unitaires pour chaque méthode
-#TODO: Gestion de cache
+# TODO: Tests unitaires pour chaque méthode
+# TODO: Gestion de cache (abandon)
+# TODO: Sauvegarde mot de passe par hachage (les mots de passe ne doivent pas être sauvegardés en clair)
 
-#Importation des modules nécessaires au serveur
+# Importation des modules nécessaires au serveur
 import json
 import unittest
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-#Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
+# Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
 class SuperChalet:
     Reservations.liste_reservations()
     Chalets.liste_chalets()
     Utilisateurs.liste_utilisateurs()
-#FIXME: Ma référence ne semble pas bonne ici
+# FIXME: Ma référence ne semble pas bonne ici
 
 
-#Création de la classe Réservation qui sert à créer des objets réservations
+# Création de la classe Réservation qui sert à créer des objets réservations
 class Reservations:
 
-    #Constructeur de la classe Reservations
+    # Constructeur de la classe Reservations
     def __init__(self, id, chalet, utilisateur):
         if self.__reservations is None:
             self.__reservation = []
@@ -35,7 +36,7 @@ class Reservations:
         self.__utilisateur = utilisateur
         self.__reservations = self.__reservations.append([self.__id, self.__chalet, self.__utilisateur])
 
-    #Méthodes GET
+    # Méthodes GET
     @property
     def id(self):
         return self.__id
@@ -48,34 +49,34 @@ class Reservations:
     def utilisateur(self):
         return self.__utilisateur
 
-    #Méthode pour obtenir les informations d'une réservation
+    # Méthode pour obtenir les informations d'une réservation
     def obtenir_infosreservation(self, id):
-        for x in range(len(self.__reservations)):  #La variable x sert d'itérateur
+        for x in range(len(self.__reservations)):  # La variable x sert d'itérateur
             infosreservation = self.__reservations[x]
             if infosreservation.index(id) != -1:
                 print("La réservation est :" + infosreservation)
             elif inforeservation.index(id) == -1:
                 print("Il n'y a pas de réservations")
-            else :
+            else:
                 print("Les réservations sont" + inforeservation)
 #
 
-    #Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
+    # Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
     def obtenir_reservations(self, utilisateur):
-        for x in range(len(self.__reservations)):  #La variable x sert d'itérateur
+        for x in range(len(self.__reservations)):  # La variable x sert d'itérateur
             infosreservation = self.__reservations[x]
             if infosreservation.index(utilisateur) != -1:
                 print(infosreservation)
 
-    #Méthode pour ajouter une réservation
+    # Méthode pour ajouter une réservation
     def ajout_reservation(self, id, chalet, utilisateur):
-        if id not in self.__id.keys(): #tu n'avais pas mis le .keys()
+        if id not in self.__id.keys():
             raise ValueError('Cette réservation existe déjà')
         else:
             self.__reservations = self.__reservations.append([id, chalet, utilisateur])
-#FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation (ajouter plage horaire)
+# FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation (ajouter plage horaire)
 
-    #Méthode pour remplacer une réservation
+    # Méthode pour remplacer une réservation
     def remplacer_reservation(self, id_reservation_a_remplacer):
         for x in range(len(self.__reservations)):
             infosreservation = self.__reservations[x]
@@ -83,23 +84,22 @@ class Reservations:
                 del(self.__reservations[x])
                 infosreservation.append(id_reservation_a_remplacer)
 
-
-    #Méthode pour supprimer une réservation
+    # Méthode pour supprimer une réservation
     def supprimer_reservation(self, id):
         for x in range(len(self.__reservations)):
             infosreservation = self.__reservations[x]
             if infosreservation.index(id) != -1:
                 del(self.__reservations[x])
 
-    #Méthode pour retourner la liste des réservations
+    # Méthode pour retourner la liste des réservations
     def liste_reservation(self):
         return self.__reservations
 
 
-#Créations de la classe Chalets qui sert à créer des objets Chalet
+# Créations de la classe Chalets qui sert à créer des objets Chalet
 class Chalets:
 
-    #Constructeur de la classe Chalets
+    # Constructeur de la classe Chalets
     def __init__(self, id, nom, url_image, geolocalisation):
         if self.__chalets is None:
             self.__chalets = []
@@ -109,7 +109,7 @@ class Chalets:
         self.__geolocalisation = geolocalisation
         self.__chalets = self.__chalets.append([self.__id, self.__nom, self.__url_image, self.__geolocalisation])
 
-    #Méthode GET
+    # Méthode GET
     @property
     def id(self):
         return self.__id
@@ -126,24 +126,24 @@ class Chalets:
     def geolocalisation(self):
         return self.__geolocalisation
 
-    #Méthode pour ajouter une objet Chalet
+    # Méthode pour ajouter une objet Chalet
     def ajout_chalet(self, id, nom, url_image, geolocalisation):
         if id in self.__id and nom in self.__nom and geolocalisation in self.__geolocalisation:
             raise ValueError('Ce chalet existe déjà')
         else:
             self.__chalets = self.__chalets.append([id, nom, url_image, geolocalisation])
-#FIXME: Je ne sais pas comment ajouter l'objet Géolocalisation dans la liste de la classe Chalet (Je comprends pas normalement de la façon que tu l'As fait c'est sensé fonctionner?)
+# FIXME: Je ne sais pas comment ajouter l'objet Géolocalisation dans la liste de la classe Chalet (Je comprends pas normalement de la façon que tu l'As fait c'est sensé fonctionner?)
 
 
-#Création de la classe Geolocalisation_Chalet qui sert à créer des objets de position (latitude, longitude)
+# Création de la classe Geolocalisation_Chalet qui sert à créer des objets de position (latitude, longitude)
 class GeolocalisationChalet:
 
-    #Constructeur de la classe Geolocalisation_Chalet
+    # Constructeur de la classe Geolocalisation_Chalet
     def __init__(self, latitude, longitude):
         self.__latitude = latitude
         self.__longitude = longitude
 
-    #Méthodes GET
+    # Méthodes GET
     @property
     def latitude(self):
         return self.__latitude
@@ -153,10 +153,10 @@ class GeolocalisationChalet:
         return self.__longitude
 
 
-#Création de la classe Utilisateurs qui sert à créer des objets Utilisateur
+# Création de la classe Utilisateurs qui sert à créer des objets Utilisateur
 class Utilisateurs:
 
-    #Constructeur de la classe Utilisateurs
+    # Constructeur de la classe Utilisateurs
     def __init__(self, email, mot_de_passe, nom, prenom, adresse):
         if self.__utilisateurs is None:
             self.__utilisateurs = []
@@ -167,9 +167,9 @@ class Utilisateurs:
         self.__adresse = adresse
         self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
         adresse = Adresses(no_civique, rue, ville, province, pays, code_postal)
-#FIXME : Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
+# FIXME : Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
 
-    #Méthodes GET
+    # Méthodes GET
     @property
     def email_utilisateur(self):
         return self.__email
@@ -190,27 +190,27 @@ class Utilisateurs:
     def adresse_utilisateur(self):
         return self.__adresse
 
-    #Méthode pour ajouter un objet Utilisateur
+    # Méthode pour ajouter un objet Utilisateur
     def ajout_utilisateur(self, email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal):
         if email in self.__email and nom in self.__nom and prenom in self.__prenom:
             raise ValueError('Cet utilisateur existe déjà')
         else:
             self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
             adresse = Adresses(no_civique, rue, ville, province, pays, code_postal)
-#FIXME: Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
+# FIXME: Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
 
-    #Méthode pour obtenir les informations d'un utilisateur
+    # Méthode pour obtenir les informations d'un utilisateur
     def obtenir_infosutilisateur(self, email):
         if email not in self.__utilisateurs:
             raise ValueError("Aucun utilisateur n'a le courriel suivant:" + email)
         else:
-            for x in range(len(self.__utilisateurs)):  #La variable x sert d'itérateur
+            for x in range(len(self.__utilisateurs)):  # La variable x sert d'itérateur
                 infosutilisateur = self.__utilisateurs[x]
                 if infosutilisateur.index(email) != -1:
                     print(infosutilisateur)
 
 
-#Création de la classe Adresses qui sert à créer des objets Adresse
+# Création de la classe Adresses qui sert à créer des objets Adresse
 class Adresses:
 
     #Constructeur de la classe Adresses
@@ -254,6 +254,7 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
     #Variable de classe
     super_chalet = SuperChalet()
 #TODO: Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi (pas eu le temps de travailler sur ça)
+
     # Point d'entrée pour toutes les requêtes de type GET
     def do_GET(self):
         # self.headers contient tous les entêtes de la requête
@@ -342,6 +343,7 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
             # HTTP status 200 OK
             self.send_response(200)
             self.end_headers()
+
 
 class ServeurTest:
 
