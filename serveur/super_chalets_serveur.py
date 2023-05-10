@@ -159,9 +159,7 @@ class Utilisateurs:
         self.__adresse = adresse
         self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
 
-    def creeradresse(self):
 
-        adresse = Adresses(no_civique, rue, ville, province, pays, code_postal)
 
 
 # FIXME : Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse

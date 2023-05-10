@@ -46,7 +46,8 @@ def export_csv(utilisateurs_json):
         #Pour écrire les données des réservations
         csv_writer.writerow = ([utilisateur[''], utilisateur['']])
 #TODO: Compléter lignes 43 et 45
-'''
+
+
 
 class impex:
     # utilisateurs = [['m@g.com', 'z', 'MF', 'CK', [26, 'rue des Cavaliers', 'St-Simon', 'QC', 'Canada', 'G3V 2V4']],['email', 'mot_de_passe', 'nom', 'prenom', ['no_civique', 'rue', 'ville', 'province', 'pays', 'code_postal']]]
@@ -63,29 +64,39 @@ class impex:
             # Pour écrire les en-têtes de colonne
             csv_writer.writerow = ([''])
             for x in len(fichier_utilisateurs):
-                fichier_utilisateurs[x].open(fichier_csv)
+
                 #Pour écrire les données des réservations
                 csv_writer.writerow = (fichier_utilisateurs[x])
+'''
 
 
-    # Méthode pour exporter les données de réservations dans un fichier "export_{timestamp}.json" dans le format JSON (point 8 consignes impex)
+class Impex:
+    @staticmethod
+    def export_csv(utilisateurs_json):
+        timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
+        nom_fichier = f'export_{timestamp}.csv'
+
+        with open(nom_fichier, 'w', newline='') as fichier_csv:
+            csv_writer = csv.writer(fichier_csv, delimiter=',')
+            csv_writer.writerow(
+                ['email', 'mot_de_passe', 'nom', 'prenom', 'no_civique', 'rue', 'ville', 'province', 'pays',
+                 'code_postal'])
+
+            for utilisateur in utilisateurs_json:
+                email, mot_de_passe, nom, prenom, adresse = utilisateur
+                no_civique, rue, ville, province, pays, code_postal = adresse
+                csv_writer.writerow(
+                    [email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal])
+
     @staticmethod
     def export_json(reservations_csv):
-        # Pour sérialiser reservations_csv en une string formatée en JSON
-        reservation = json.dumps(reservations_csv)
-        # Pour créer un nom de fichier en fonction du temps
         timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
         nom_fichier = f'export_{timestamp}.json'
-        # Pour ouvrir le fichier en mode écriture
-        with open(nom_fichier, 'w', newline=' ') as fichier_csv:
-            # Pour créer un objet pour écrire dans un fichier csv
-            json_writer = json.writer(fichier_csv, delimiter=',')
-            # Pour écrire les en-têtes de colonne
-            json_writer.writerow = ([''])
-            # Pour écrire les données des réservations
-            json_writer.writerow = ([reservation[''], reservation['']])
-# FIXME: Il ne faudrait pas mettre les 2 dernières méthodes dans une classe? (jcrois pas) (Oui car méthode statique)
+
+        with open(nom_fichier, 'w', newline='') as fichier_json:
+            json.dump(reservations_csv, fichier_json)
+
 
 # Pour que le code se réalise
-impex.export_json(fichier_utilisateurs)
-impex.export_json(fichier_reservations)
+Impex.export_json(fichier_utilisateurs)
+Impex.export_json(fichier_reservations)
