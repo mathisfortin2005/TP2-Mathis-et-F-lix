@@ -83,8 +83,8 @@ def export_json(reservations_csv):
         json_writer.writerow = ([''])
         #Pour écrire les données des réservations
         json_writer.writerow = ([reservation[''], reservation['']])
-# TODO: Compléter lignes 60 et 62
-# FIXME: Il ne faudrait pas mettre les 2 dernières méthodes dans une classe?
+# TODO: Compléter lignes 60 et 62 (J'ai ouvert le fichier, il maque quoi?)
+# FIXME: Il ne faudrait pas mettre les 2 dernières méthodes dans une classe? (jcrois pas)
 
 #Pour que le code se réalise
 export_json(fichier_utilisateurs)
