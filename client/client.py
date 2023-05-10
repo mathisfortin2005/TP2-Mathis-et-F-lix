@@ -9,7 +9,7 @@ Version 1
 
 
 import requests
-import unittest
+import unittest as ut
 
 
 # Création de la classe ClientServeurChalet
@@ -91,7 +91,7 @@ class ClientServeurChalet:
         print(req.status_code)
         print(req.content)
 
-class Testobtenir_infosreservation(unittest.TestCase):
+class Testobtenir_infosreservation(ut.TestCase):
 
     def test_split(self):
         s = req
@@ -99,7 +99,7 @@ class Testobtenir_infosreservation(unittest.TestCase):
 
         with self.assertRasies(TypeError) :
             s.split(2)
-class Testinformationschalet(unittest.TestCase):
+class Testinformationschalet(ut.TestCase):
 
     def test_split(self):
         s = req
@@ -108,7 +108,7 @@ class Testinformationschalet(unittest.TestCase):
         with self.assertRasies(TypeError):
             s.split(2)
 
-class Testdisponibilite_chalet(unittest.TestCase):
+class Testdisponibilite_chalet(ut.TestCase):
 
     def test_split(self):
         s = req
