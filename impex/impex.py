@@ -8,8 +8,7 @@ Version 1
 """
 #FIXME: Pourquoi importer .client.client.py et pickle
 from client import client # Importation module client (point 1 consignes impex)
-import datetime
-#import pickle
+from datetime import datetime
 import csv
 import json
 

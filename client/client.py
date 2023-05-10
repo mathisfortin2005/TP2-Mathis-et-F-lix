@@ -102,7 +102,7 @@ class Testobtenir_infosreservation(ut.TestCase):
         s = req
         self.assertEqual(s.split(),req,'reservation')
 
-        with self.assertRasies(TypeError) :
+        with self.assertRaises(TypeError) :
             s.split(2)
 class Testinformationschalet(ut.TestCase):
 
@@ -110,7 +110,7 @@ class Testinformationschalet(ut.TestCase):
         s = req
         self.assertEqual(s.split(), req, 'chalet')
 
-        with self.assertRasies(TypeError):
+        with self.assertRaises(TypeError):
             s.split(2)
 
 class Testdisponibilite_chalet(ut.TestCase):
@@ -119,7 +119,7 @@ class Testdisponibilite_chalet(ut.TestCase):
         s = req
         self.assertEqual(s.split(), req, 'plage')
 
-        with self.assertRasies(TypeError):
+        with self.assertRaises(TypeError):
             s.split(2)
 #FIXME: Ce ne serait pas assertRaises()?
 #TODO: Faire les autres méthodes de test

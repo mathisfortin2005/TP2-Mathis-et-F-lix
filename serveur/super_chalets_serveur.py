@@ -7,12 +7,11 @@ Dernière modification : 2023-05-10 10:58:39
 Version 1
 """
 # TODO: Tests unitaires pour chaque méthode
-# TODO: Gestion de cache (abandon)
 # TODO: Sauvegarde mot de passe par hachage (les mots de passe ne doivent pas être sauvegardés en clair)
 
 # Importation des modules nécessaires au serveur
+import client
 import json
-import unittest
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
@@ -26,7 +25,8 @@ class Reservations:
         self.__id = id
         self.__chalet = chalet
         self.__utilisateur = utilisateur
-        self.__reservations = self.__reservations.append([self.__id, self.__chalet, self.__utilisateur])
+        self.__plage = plage
+        self.__reservations = self.__reservations.append([self.__id, self.__chalet, self.__utilisateur, self.__plage])
 
     # Méthodes GET
     @property
@@ -40,6 +40,10 @@ class Reservations:
     @property
     def utilisateur(self):
         return self.__utilisateur
+
+    @property
+    def plage(self):
+        return self.__plage
 
     # Méthode pour obtenir les informations d'une réservation
     def obtenir_infosreservation(self, id):
@@ -61,12 +65,11 @@ class Reservations:
                 print(infosreservation)
 
     # Méthode pour ajouter une réservation
-    def ajout_reservation(self, id, chalet, utilisateur):
+    def ajout_reservation(self, id, chalet, utilisateur, plage):
         if id not in self.__id.keys():
             raise ValueError('Cette réservation existe déjà')
         else:
-            self.__reservations = self.__reservations.append([id, chalet, utilisateur])
-# FIXME: Je ne sais pas si nous devons vérifier les disponibilités pour ajouter une réservation (ajouter plage horaire)
+            self.__reservations = self.__reservations.append([id, chalet, utilisateur, plage])
 
     # Méthode pour remplacer une réservation
     def remplacer_reservation(self, id_reservation_a_remplacer):
