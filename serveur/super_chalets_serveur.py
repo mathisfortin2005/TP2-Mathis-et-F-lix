@@ -16,14 +16,6 @@ import unittest
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-# Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
-class SuperChalet:
-    Reservations.liste_reservations()
-    Chalets.liste_chalets()
-    Utilisateurs.liste_utilisateurs()
-# FIXME: Ma référence ne semble pas bonne ici
-
-
 # Création de la classe Réservation qui sert à créer des objets réservations
 class Reservations:
 
@@ -55,10 +47,10 @@ class Reservations:
             infosreservation = self.__reservations[x]
             if infosreservation.index(id) != -1:
                 print("La réservation est :" + infosreservation)
-            elif inforeservation.index(id) == -1:
+            elif infosreservation.index(id) == -1:
                 print("Il n'y a pas de réservations")
             else:
-                print("Les réservations sont" + inforeservation)
+                print("Les réservations sont" + infosreservation)
 #
 
     # Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
@@ -157,7 +149,7 @@ class GeolocalisationChalet:
 class Utilisateurs:
 
     # Constructeur de la classe Utilisateurs
-    def __init__(self, email, mot_de_passe, nom, prenom, adresse):
+    def __init__(self, email, mot_de_passe, nom, prenom, adresse, no_civique, rue, ville, province, pays, code_postal):
         if self.__utilisateurs is None:
             self.__utilisateurs = []
         self.__email = email
@@ -166,7 +158,12 @@ class Utilisateurs:
         self.__prenom = prenom
         self.__adresse = adresse
         self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
+
+    def creeradresse(self):
+
         adresse = Adresses(no_civique, rue, ville, province, pays, code_postal)
+
+
 # FIXME : Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
 
     # Méthodes GET
@@ -247,6 +244,15 @@ class Adresses:
     @property
     def code_postal(self):
         return self.__code_postal
+
+
+# Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
+class SuperChalet:
+    Reservations.liste_reservations()
+    Chalets.liste_chalets()
+    Utilisateurs.liste_utilisateurs()
+# FIXME: Ma référence ne semble pas bonne ici
+
 
 
 class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):

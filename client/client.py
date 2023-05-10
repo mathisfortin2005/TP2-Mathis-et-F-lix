@@ -61,17 +61,17 @@ class ClientServeurChalet:
         print(req.content)
 
     # Pour obtenir toutes les réservations triées par ordre croissant de leur ID (point 7 consignes client)
-    def liste_reservations(self):
+    def liste_reservations(self, reservations):
         req = requests.get(self.__url_base + '/reservations/' + reservations)
         items = req.json()
         print(items.sort())
 
-    def liste_chalets(self):
+    def liste_chalets(self, chalets):
         req = requests.get(self.__url_base + '/chalets/' + chalets)
         items = req.json()
         print(items.sort())
 
-    def liste_utilisateurs(self):
+    def liste_utilisateurs(self, utilisateurs):
         req = requests.get(self.__url_base + '/utilisateurs/' + utilisateurs)
         items = req.json()
         print(items.sort())
@@ -98,7 +98,7 @@ class ClientServeurChalet:
 #Tests unitaires
 class Testobtenir_infosreservation(ut.TestCase):
 
-    def test_split(self):
+    def test_split(self, req):
         s = req
         self.assertEqual(s.split(),req,'reservation')
 
@@ -106,7 +106,7 @@ class Testobtenir_infosreservation(ut.TestCase):
             s.split(2)
 class Testinformationschalet(ut.TestCase):
 
-    def test_split(self):
+    def test_split(self, req):
         s = req
         self.assertEqual(s.split(), req, 'chalet')
 
@@ -115,7 +115,7 @@ class Testinformationschalet(ut.TestCase):
 
 class Testdisponibilite_chalet(ut.TestCase):
 
-    def test_split(self):
+    def test_split(self, req):
         s = req
         self.assertEqual(s.split(), req, 'plage')
 
