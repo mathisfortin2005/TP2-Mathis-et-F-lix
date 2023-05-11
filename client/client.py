@@ -3,16 +3,17 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-10 10:58:39
+Dernière modification : 2023-05-11 16:35:25
 Version 1
 """
 
+# TODO: @Felix - Test unitaire pour chaque méthode
 
 import requests
 import unittest as ut
 
 
-# Création de la classe ClientServeurChalet
+# Création de la classe ClientServeurChalet qui contient l'ensemble des commandes que le client peut faire
 class ClientServeurChalet:
 
     # Constructeur de la classe ClientServeurChalet
@@ -121,8 +122,7 @@ class Testdisponibilite_chalet(ut.TestCase):
 
         with self.assertRaises(TypeError):
             s.split(2)
-#FIXME: Ce ne serait pas assertRaises()?
-#TODO: Faire les autres méthodes de test
+
 
 # Code de test
 client = ClientServeurChalet('http://localhost:8000')

@@ -3,10 +3,10 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-10 10:58:39
+Dernière modification : 2023-05-11 16:35:25
 Version 1
 """
-#FIXME: Pourquoi importer .client.client.py et pickle
+# FIXME: Pourquoi importer .client.client.py
 from client import client # Importation module client (point 1 consignes impex)
 from datetime import datetime
 import csv
@@ -28,59 +28,22 @@ with open('data/disponibilites.xml', 'rt') as fichier_dispo_chalets:
 with open('data/reservations.xml', 'rt') as fichier_reservations:
     fichier_reservations.read()
 
-'''
-@staticmethod
-def export_csv(utilisateurs_json):
-    #Pour déserialiser utilisateurs_json en un objet Python contenant un document JSON
-    utilisateur = csv.dumps(utilisateurs_json)
-    #Pour créer un nom de fichier en fonction du temps
-    timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
-    nom_fichier = f'export_{timestamp}.csv'
-    #Pour ouvrir le fichier en mode écriture
-    with open(nom_fichier, 'w', newline=' ') as fichier_csv:
-        #Pour créer un objet pour écrire dans un fichier csv
-        csv_writer = csv.writer(fichier_csv, delimiter=',')
-        #Pour écrire les en-têtes de colonne
-        csv_writer.writerow = ([''])
-        #Pour écrire les données des réservations
-        csv_writer.writerow = ([utilisateur[''], utilisateur['']])
-#TODO: Compléter lignes 43 et 45
 
-
-
-class impex:
-    # utilisateurs = [['m@g.com', 'z', 'MF', 'CK', [26, 'rue des Cavaliers', 'St-Simon', 'QC', 'Canada', 'G3V 2V4']],['email', 'mot_de_passe', 'nom', 'prenom', ['no_civique', 'rue', 'ville', 'province', 'pays', 'code_postal']]]
-    # Méthode pour exporter les données d'un objet JSON "utilisateur" dans un fichier "export_{timestamp}.csv" dans le format CSV (point 7 consignes impex)
+# La classe Impex permet de définir les méthodes d'exportation d'un fichier d'un format vers un autre
+class Impex:
     @staticmethod
+    # Méthode statique pour exporter les données d'un objet JSON "utilisateur" dans un fichier "export_{timestamp}.csv" dans le format CSV
     def export_csv(utilisateurs_json):
         # Pour créer un nom de fichier en fonction du temps
         timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
         nom_fichier = f'export_{timestamp}.csv'
         # Pour ouvrir le fichier en mode écriture
-        with open('./data/reservations.xml', 'w', newline='') as fichier_csv:
-            # Pour créer un objet pour écrire dans un fichier csv
-            csv_writer = csv.writer(fichier_csv, delimiter=',')
-            # Pour écrire les en-têtes de colonne
-            csv_writer.writerow = ([''])
-            for x in len(fichier_utilisateurs):
-
-                #Pour écrire les données des réservations
-                csv_writer.writerow = (fichier_utilisateurs[x])
-'''
-
-
-class Impex:
-    @staticmethod
-    def export_csv(utilisateurs_json):
-        timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
-        nom_fichier = f'export_{timestamp}.csv'
-
         with open(nom_fichier, 'w', newline='') as fichier_csv:
             csv_writer = csv.writer(fichier_csv, delimiter=',')
             csv_writer.writerow(
                 ['email', 'mot_de_passe', 'nom', 'prenom', 'no_civique', 'rue', 'ville', 'province', 'pays',
                  'code_postal'])
-
+            # Boucle for pour passer tout les utilisateurs
             for utilisateur in utilisateurs_json:
                 email, mot_de_passe, nom, prenom, adresse = utilisateur
                 no_civique, rue, ville, province, pays, code_postal = adresse
@@ -88,12 +51,19 @@ class Impex:
                     [email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal])
 
     @staticmethod
+    # Méthode statique pour exporter les données d'un objet JSON "reservation" dans un fichier "export_{timestamp}.xml" dans le format XML
     def export_json(reservations_csv):
+        # Pour créer un nom de fichier en fonction du temps
         timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
         nom_fichier = f'export_{timestamp}.json'
-
+        # Pour ouvrir le fichier en mode écriture
         with open(nom_fichier, 'w', newline='') as fichier_json:
             json.dump(reservations_csv, fichier_json)
+
+
+def executer():
+    pass
+# TODO : @Felix - Fonction (pas une méthode)  `def executer()` qui contient le code à appeler pour l'import des données vers le serveur
 
 
 # Pour que le code se réalise

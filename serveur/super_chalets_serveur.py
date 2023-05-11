@@ -3,10 +3,9 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-10 10:58:39
+Dernière modification : 2023-05-11 16:35:25
 Version 1
 """
-# TODO: Tests unitaires pour chaque méthode
 # TODO: Sauvegarde mot de passe par hachage (les mots de passe ne doivent pas être sauvegardés en clair)
 
 # Importation des modules nécessaires au serveur
@@ -19,7 +18,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 class Reservations:
 
     # Constructeur de la classe Reservations
-    def __init__(self, id, chalet, utilisateur):
+    def __init__(self, id, chalet, utilisateur, plage):
         if self.__reservations is None:
             self.__reservation = []
         self.__id = id
@@ -95,14 +94,15 @@ class Reservations:
 class Chalets:
 
     # Constructeur de la classe Chalets
-    def __init__(self, id, nom, url_image, geolocalisation):
+    def __init__(self, id, nom, url_image, longitude, latitude):
         if self.__chalets is None:
             self.__chalets = []
         self.__id = id
         self.__nom = nom
         self.__url_image = url_image
-        self.__geolocalisation = geolocalisation
-        self.__chalets = self.__chalets.append([self.__id, self.__nom, self.__url_image, self.__geolocalisation])
+        self.__longitude = longitude
+        self.__latitude = latitude
+        self.__chalets = self.__chalets.append([self.__id, self.__nom, self.__url_image, [self.__longitude, self.__latitude]])
 
     # Méthode GET
     @property
@@ -118,18 +118,21 @@ class Chalets:
         return self.__url_image
 
     @property
-    def geolocalisation(self):
-        return self.__geolocalisation
+    def longitude(self):
+        return self.__longitude
+
+    @property
+    def latitude(self):
+        return self.__latitude
 
     # Méthode pour ajouter une objet Chalet
-    def ajout_chalet(self, id, nom, url_image, geolocalisation):
-        if id in self.__id and nom in self.__nom and geolocalisation in self.__geolocalisation:
+    def ajout_chalet(self, id, nom, url_image, longitude, latitude):
+        if id in self.__id and nom in self.__nom and latitude in self.__latitude and longitude in self.__longitude:
             raise ValueError('Ce chalet existe déjà')
         else:
-            self.__chalets = self.__chalets.append([id, nom, url_image, geolocalisation])
-# FIXME: Je ne sais pas comment ajouter l'objet Géolocalisation dans la liste de la classe Chalet (Je comprends pas normalement de la façon que tu l'As fait c'est sensé fonctionner?)
+            self.__chalets = self.__chalets.append([id, nom, url_image, [longitude, latitude]])
 
-
+"""
 # Création de la classe Geolocalisation_Chalet qui sert à créer des objets de position (latitude, longitude)
 class GeolocalisationChalet:
 
@@ -146,26 +149,27 @@ class GeolocalisationChalet:
     @property
     def longitude(self):
         return self.__longitude
+"""
 
 
 # Création de la classe Utilisateurs qui sert à créer des objets Utilisateur
 class Utilisateurs:
 
     # Constructeur de la classe Utilisateurs
-    def __init__(self, email, mot_de_passe, nom, prenom, adresse, no_civique, rue, ville, province, pays, code_postal):
+    def __init__(self, email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal):
         if self.__utilisateurs is None:
             self.__utilisateurs = []
         self.__email = email
         self.__mot_de_passe = mot_de_passe
         self.__nom = nom
         self.__prenom = prenom
-        self.__adresse = adresse
+        self.__no_civique = no_civique
+        self.__rue = rue
+        self.__ville = ville
+        self.__province = province
+        self.__pays = pays
+        self.__code_postal = code_postal
         self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
-
-
-
-
-# FIXME : Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
 
     # Méthodes GET
     @property
@@ -184,44 +188,6 @@ class Utilisateurs:
     def prenom_utilisateur(self):
         return self.__prenom
 
-    @property
-    def adresse_utilisateur(self):
-        return self.__adresse
-
-    # Méthode pour ajouter un objet Utilisateur
-    def ajout_utilisateur(self, email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal):
-        if email in self.__email and nom in self.__nom and prenom in self.__prenom:
-            raise ValueError('Cet utilisateur existe déjà')
-        else:
-            self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
-            adresse = Adresses(no_civique, rue, ville, province, pays, code_postal)
-# FIXME: Je ne sais pas comment ajouter l'objet Adresse dans le liste de la classe objet Adresse
-
-    # Méthode pour obtenir les informations d'un utilisateur
-    def obtenir_infosutilisateur(self, email):
-        if email not in self.__utilisateurs:
-            raise ValueError("Aucun utilisateur n'a le courriel suivant:" + email)
-        else:
-            for x in range(len(self.__utilisateurs)):  # La variable x sert d'itérateur
-                infosutilisateur = self.__utilisateurs[x]
-                if infosutilisateur.index(email) != -1:
-                    print(infosutilisateur)
-
-
-# Création de la classe Adresses qui sert à créer des objets Adresse
-class Adresses:
-
-    #Constructeur de la classe Adresses
-    def __init__(self, no_civique, rue, ville, province, pays, code_postal):
-        self.__no_civique = no_civique
-        self.__rue = rue
-        self.__ville = ville
-        self.__province = province
-        self.__pays = pays
-        self.__code_postal = code_postal
-        self.__adresse = [self.__no_civique, self.__rue, self.__ville, self.__province, self.__pays, self.__code_postal]
-
-    #Méthodes GET
     @property
     def no_civique(self):
         return self.__no_civique
@@ -246,21 +212,76 @@ class Adresses:
     def code_postal(self):
         return self.__code_postal
 
+    # Méthode pour ajouter un objet Utilisateur
+    def ajout_utilisateur(self, email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal):
+        if email in self.__email and nom in self.__nom and prenom in self.__prenom:
+            raise ValueError('Cet utilisateur existe déjà')
+        else:
+            self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
+
+    # Méthode pour obtenir les informations d'un utilisateur
+    def obtenir_infosutilisateur(self, email):
+        if email not in self.__utilisateurs:
+            raise ValueError("Aucun utilisateur n'a le courriel suivant:" + email)
+        else:
+            for x in range(len(self.__utilisateurs)):  # La variable x sert d'itérateur
+                infosutilisateur = self.__utilisateurs[x]
+                if infosutilisateur.index(email) != -1:
+                    print(infosutilisateur)
+
+
+"""
+# Création de la classe Adresses qui sert à créer des objets Adresse
+class Adresses:
+
+    # Constructeur de la classe Adresses
+    def __init__(self, no_civique, rue, ville, province, pays, code_postal):
+        self.__no_civique = no_civique
+        self.__rue = rue
+        self.__ville = ville
+        self.__province = province
+        self.__pays = pays
+        self.__code_postal = code_postal
+        self.__adresse = [self.__no_civique, self.__rue, self.__ville, self.__province, self.__pays, self.__code_postal]
+
+    # Méthodes GET
+    @property
+    def no_civique(self):
+        return self.__no_civique
+
+    @property
+    def rue(self):
+        return self.__rue
+
+    @property
+    def ville(self):
+        return self.__ville
+
+    @property
+    def province(self):
+        return self.__province
+
+    @property
+    def pays(self):
+        return self.__pays
+
+    @property
+    def code_postal(self):
+        return self.__code_postal
+"""
+
 
 # Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
 class SuperChalet:
     Reservations.liste_reservations()
     Chalets.liste_chalets()
-    Utilisateurs.liste_utilisateurs()
-# FIXME: Ma référence ne semble pas bonne ici
-
+    Utilisateurs.liste_utilisateurs() # FIXME : liste_reservations, liste_chalets et liste_utilisateurs ne semblent pas fonctionner
 
 
 class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
-
-    #Variable de classe
+    # Variable de classe
     super_chalet = SuperChalet()
-#TODO: Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi (pas eu le temps de travailler sur ça)
+# TODO: @Felix - Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi (pas eu le temps de travailler sur ça) (J'ai essayé de travailler là-dessus mais rien de concluant)
 
     # Point d'entrée pour toutes les requêtes de type GET
     def do_GET(self):
@@ -273,37 +294,27 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
             # permet d'aller chercher le {nom de l'enclos}
             enclos = path.split('/')[2]
             # appelle l'objet zoo pour aller chercher le contenu de l'enclos
-            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
+            content = 'Réservation: ' + reservation + ' -> ' + str(self.super_chalet.reservations[reservation])
             # Renvoyer le code 200 pour dire au client que c'est un succès
             self.send_response(200)
             # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
             self.end_headers()
             self.wfile.write(bytes(content, 'utf-8'))
-        if path.startswith('/enclos/'):
+        elif path.startswith('/utilisateur/'):
             # permet d'aller chercher le {nom de l'enclos}
             enclos = path.split('/')[2]
             # appelle l'objet zoo pour aller chercher le contenu de l'enclos
-            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
+            content = 'Utilisateur: ' + utilisateur + ' -> ' + str(self.super_chalet.utilisateur[utilisateur])
             # Renvoyer le code 200 pour dire au client que c'est un succès
             self.send_response(200)
             # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
             self.end_headers()
             self.wfile.write(bytes(content, 'utf-8'))
-        if path.startswith('/enclos/'):
+        elif path.startswith('/chalet/'):
             # permet d'aller chercher le {nom de l'enclos}
             enclos = path.split('/')[2]
             # appelle l'objet zoo pour aller chercher le contenu de l'enclos
-            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
-            # Renvoyer le code 200 pour dire au client que c'est un succès
-            self.send_response(200)
-            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
-            self.end_headers()
-            self.wfile.write(bytes(content, 'utf-8'))
-        if path.startswith('/enclos/'):
-            # permet d'aller chercher le {nom de l'enclos}
-            enclos = path.split('/')[2]
-            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
-            content = 'Enclos: ' + enclos + ' -> ' + str(self.zoo.enclos[enclos])
+            content = 'Chalet: ' + chalet + ' -> ' + str(self.super_chalet.chalet[chalet])
             # Renvoyer le code 200 pour dire au client que c'est un succès
             self.send_response(200)
             # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
@@ -352,8 +363,8 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 
+# Classe pour utiliser le serveur
 class ServeurTest:
-
     @staticmethod
     def run(serveur_class=HTTPServer, serveur_port=8000, handler_class=TPBaseHTTPRequestHandler):
         serveur_adresse = ('', serveur_port)
@@ -361,4 +372,5 @@ class ServeurTest:
         httpd.serve_forever()
 
 
+# Code pour l'exécution du test
 serveur = ServeurTest.run()
