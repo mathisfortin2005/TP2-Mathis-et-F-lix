@@ -3,10 +3,11 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-11 16:35:25
+Dernière modification : 2023-05-11 16:47:04
 Version 1
 """
-# TODO: Sauvegarde mot de passe par hachage (les mots de passe ne doivent pas être sauvegardés en clair)
+# TODO : Supprimer classes inutiles (en commentaire) lorsque tout sera terminé et fonctionnel
+# FIXME : Est-ce que tout les @property méthodes getter sont nécessaires? NE PAS SUPPRIMER TOUT DE SUITE SVP
 
 # Importation des modules nécessaires au serveur
 import client
@@ -160,7 +161,7 @@ class Utilisateurs:
         if self.__utilisateurs is None:
             self.__utilisateurs = []
         self.__email = email
-        self.__mot_de_passe = mot_de_passe
+        self.__mot_de_passe = hash(mot_de_passe) # Fonction hash pour ne pas sauvegarder le mot de passe directement
         self.__nom = nom
         self.__prenom = prenom
         self.__no_civique = no_civique
@@ -169,7 +170,7 @@ class Utilisateurs:
         self.__province = province
         self.__pays = pays
         self.__code_postal = code_postal
-        self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
+        self.__utilisateurs = self.__utilisateurs.append([email, hash(mot_de_passe), nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
 
     # Méthodes GET
     @property

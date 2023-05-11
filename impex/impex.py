@@ -3,10 +3,11 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-11 16:35:25
+Dernière modification : 2023-05-11 16:47:54
 Version 1
 """
 # FIXME: Pourquoi importer .client.client.py
+
 from client import client # Importation module client (point 1 consignes impex)
 from datetime import datetime
 import csv
