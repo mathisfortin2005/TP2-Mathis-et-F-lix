@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-04-30 20:07:04
+Dernière modification : 2023-05-12 12:27:21
 Version 1
 """
 
@@ -173,5 +173,5 @@ class Testdisponibilite_chalet(ut.TestCase):
             s.split(2)
 
 
-        # Code de test
+# Code du client
 client = ClientServeurChalet('http://localhost:8000')
