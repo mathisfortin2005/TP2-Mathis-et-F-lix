@@ -3,17 +3,16 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-11 19:58:37
+Dernière modification : 2023-04-30 20:07:04
 Version 1
 """
 
-# TODO: @Felix - Test unitaire pour chaque méthode
 
 import requests
 import unittest as ut
 
 
-# Création de la classe ClientServeurChalet qui contient l'ensemble des commandes que le client peut faire
+# Création de la classe ClientServeurChalet
 class ClientServeurChalet:
 
     # Constructeur de la classe ClientServeurChalet
@@ -54,69 +53,119 @@ class ClientServeurChalet:
         print(req.status_code)
         print(req.content)
 
-    # Pour ajouter un utilisateur (point 6 consignes client)
+    # our ajouter un utilisateur (point 6 consignes client)
     def ajout_utilisateur(self, utilisateur):
         json_body = '{"nom": "' + utilisateur + '" }'
         req = requests.post(self.__url_base + '/utilisateur/' + utilisateur, data=json_body)
         print(req.status_code)
         print(req.content)
 
-    # Pour obtenir toutes les réservations triées par ordre croissant de leur ID (point 7 consignes client)
-    def liste_reservations(self, reservations):
+    def liste_reservations(self):
         req = requests.get(self.__url_base + '/reservations/' + reservations)
         items = req.json()
         print(items.sort())
 
-    def liste_chalets(self, chalets):
+    def liste_chalets(self):
         req = requests.get(self.__url_base + '/chalets/' + chalets)
         items = req.json()
         print(items.sort())
 
-    def liste_utilisateurs(self, utilisateurs):
+    def liste_utilisateurs(self):
         req = requests.get(self.__url_base + '/utilisateurs/' + utilisateurs)
         items = req.json()
         print(items.sort())
 
-    # Pour ajouter un chalet (point 8 consignes client)
     def ajout_chalet(self, chalet):
         json_body = '{"nom": "' + chalet + '" }'
         req = requests.post(self.__url_base + '/chalet/' + chalet, data=json_body)
         print(req.status_code)
         print(req.content)
 
-    # Pour retourner les informations d'un chalet (point 9 consignes client)
     def informations_chalet(self, chalet):
         req = requests.get(self.__url_base + '/chalet/' + chalet)
         print(req.status_code)
         print(req.content)
 
-    # Pour créer une plage de disponibilité pour le chalet
     def disponibilite_chalet(self, plage):
         req = requests.get(self.__url_base + '/plage/' + plage)
         print(req.status_code)
         print(req.content)
 
-#Tests unitaires
 class Testobtenir_infosreservation(ut.TestCase):
 
-    def test_split(self, req):
+    def test_split(self):
         s = req
         self.assertEqual(s.split(),req,'reservation')
 
         with self.assertRaises(TypeError) :
             s.split(2)
-class Testinformationschalet(ut.TestCase):
 
-    def test_split(self, req):
+class Testobtenir_reservations(ut.TestCase):
+
+    def test_split(self):
         s = req
-        self.assertEqual(s.split(), req, 'chalet')
+        self.assertEqual(s.split(),req,'utilisateur')
 
-        with self.assertRaises(TypeError):
+        with self.assertRaises(TypeError) :
+            s.split(2)
+
+class Testajout_reservation(ut.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(),req,'reservation')
+
+        with self.assertRaises(TypeError) :
+            s.split(2)
+
+class Testremplacer_reservation(ut.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(),req,'reservation')
+
+        with self.assertRaises(TypeError) :
+            s.split(2)
+
+class Testsupprimer_reservation(ut.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(),req,'reservation')
+
+        with self.assertRaises(TypeError) :
+            s.split(2)
+
+class Testajout_utilisateur(ut.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(),req,'utilisateur')
+
+        with self.assertRaises(TypeError) :
+            s.split(2)
+
+class Testajout_chalet(ut.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(),req,'chalet')
+
+        with self.assertRaises(TypeError) :
+            s.split(2)
+
+class Testinformations_chalet(ut.TestCase):
+
+    def test_split(self):
+        s = req
+        self.assertEqual(s.split(),req,'chalet')
+
+        with self.assertRaises(TypeError) :
             s.split(2)
 
 class Testdisponibilite_chalet(ut.TestCase):
 
-    def test_split(self, req):
+    def test_split(self):
         s = req
         self.assertEqual(s.split(), req, 'plage')
 
@@ -124,5 +173,5 @@ class Testdisponibilite_chalet(ut.TestCase):
             s.split(2)
 
 
-# Code de test
+        # Code de test
 client = ClientServeurChalet('http://localhost:8000')
