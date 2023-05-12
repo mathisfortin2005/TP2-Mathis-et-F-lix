@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-11 16:47:04
+Dernière modification : 2023-05-11 19:58:37
 Version 1
 """
 # TODO : Supprimer classes inutiles (en commentaire) lorsque tout sera terminé et fonctionnel
@@ -279,20 +279,21 @@ class SuperChalet:
     Utilisateurs.liste_utilisateurs() # FIXME : liste_reservations, liste_chalets et liste_utilisateurs ne semblent pas fonctionner
 
 
+# Classe permettant de gérer les requêtes envoyées par le client
 class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
     # Variable de classe
     super_chalet = SuperChalet()
 # TODO: @Felix - Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi (pas eu le temps de travailler sur ça) (J'ai essayé de travailler là-dessus mais rien de concluant)
 
-    # Point d'entrée pour toutes les requêtes de type GET
+    # Point d'entrée pour toutes les requêtes de type GET (pour obtenir les informations)
     def do_GET(self):
         # self.headers contient tous les entêtes de la requête
         headers = self.headers
         # contient le chemin d'accès de la ressource demandé ex: /enclos/...
         path = self.path
-        # Gère les chemin d'accès (path) de type GET /enclos/{nom de l'enclos}
+        # Gère les chemins d'accès (path) de type GET / Reservation / {nom de l'enclos}
         if path.startswith('/reservation/'):
-            # permet d'aller chercher le {nom de l'enclos}
+            # Permet d'aller chercher le {nom de l'enclos}
             enclos = path.split('/')[2]
             # appelle l'objet zoo pour aller chercher le contenu de l'enclos
             content = 'Réservation: ' + reservation + ' -> ' + str(self.super_chalet.reservations[reservation])
@@ -324,15 +325,47 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         else:
             # Gère le cas ou le chemin d'accès n'est pas trouvé
             # On pourrait aussi gérer les erreurs
-            self.send_response(500, 'enclos non trouve')
+            self.send_response(542, 'enclos non trouve')
             self.end_headers()
 
-    # Permet de gérer l'ajout d'enclos ou l'ajout d'animaux dans un enclos
+    # Permet de gérer l'ajout de réservations, de chalets et d'utilisateurs
     def do_POST(self):
         # Chemin d'accès retourné par la requête
         path = self.path
-        # Cas d'ajout un enclos POST /enclos
-        if path == '/enclos':
+        # Cas d'ajout d'une réservation POST / reservation
+        if path == '/reservation':
+            # L'entête content-length contient la longueur du contenu du corps de la requête POST
+            content_length = int(self.headers['Content-Length'])
+            # Lecture entiere du corps du POST
+            body = self.rfile.read(content_length)
+            # Lecture du body json vers un dictionnaire Python
+            json_str = json.loads(body)
+            try:
+                # Appel de la méthode de zoo pour ajouter un enclos
+                self.super_chalet.Reservations.ajout_reservation(json_str['réservation'])
+                self.send_response(200)
+            except ValueError:
+                # La méthode de zoo a fait un raise d'une exception
+                self.send_response(542, 'Réservation existante')
+            self.end_headers()
+        # Cas d'ajout d'un utilisateur POST / utilisateur
+        if path == '/utilisateur':
+            # L'entête content-length contient la longueur du contenu du corps de la requête POST
+            content_length = int(self.headers['Content-Length'])
+            # Lecture entiere du corps du POST
+            body = self.rfile.read(content_length)
+            # Lecture du body json vers un dictionnaire Python
+            json_str = json.loads(body)
+            try:
+                # Appel de la méthode de zoo pour ajouter un enclos
+                self.super_chalet.Utilisateurs.ajout_utilisateur(json_str['utilisateur'])
+                self.send_response(200)
+            except ValueError:
+                # La méthode de zoo a fait un raise d'une exception
+                self.send_response(542, 'Utilisateur existant')
+            self.end_headers()
+        # Cas d'ajout d'un chalet POST / chalet
+        if path == '/chalet':
             # L'entête content-length contient la longueur du contenu du corps de la requête POST
             content_length = int(self.headers['Content-Length'])
             # lecture entiere du corps du POST
@@ -341,27 +374,20 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
             json_str = json.loads(body)
             try:
                 # Appel de la méthode de zoo pour ajouter un enclos
-                self.zoo.ajout_enclos(json_str['nom'])
+                self.super_chalet.Chalets.ajout_chalet(json_str['chalet'])
                 self.send_response(200)
             except ValueError:
                 # La méthode de zoo a fait un raise d'une exception
-                self.send_response(500, 'Enclos existant')
+                self.send_response(542, 'Chalet existant')
             self.end_headers()
-        # Cas ajout d'animal dans un enclos POST /enclos/{nom enclos}
-        elif path.startswith('/enclos/'):
-            # Aller chercher le nom de l'enclos
-            enclos = path.split('/')[2]
-            # Entête indiquant le nombre d'octets (bytes) à lire
-            content_length = int(self.headers['Content-Length'])
-            # lecture entiere du corps du POST
-            body = self.rfile.read(content_length)
-            # Lecture du body json vers un dictionnaire Python
-            json_str = json.loads(body)
-            # Appel de la méthode de zoo pour ajouter un animal
-            self.zoo.ajout_animal(enclos, json_str['nom'])
-            # HTTP status 200 OK
-            self.send_response(200)
-            self.end_headers()
+
+    # Point d'entrée de toutes les demandes de type PUT (pour modifier un élément)
+    def do_PUT(self):
+        pass
+
+    # Point d'entrée de toutes les demandes de type DELETE (pour supprimer un élément)
+    def do_DELETE(self):
+        pass
 
 
 # Classe pour utiliser le serveur
