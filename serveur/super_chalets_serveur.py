@@ -75,7 +75,9 @@ class SuperChalet:
         for x in range(len(self.__reservations)):  # La variable x sert d'itérateur
             infosreservation = self.__reservations[x]
             if infosreservation.index(utilisateur) != -1:
-                return infosreservation
+                pass
+
+            return infosreservation
 
     # Méthode pour ajouter une réservation
     def ajoutReservation(self, id, chalet, utilisateur, plage):
