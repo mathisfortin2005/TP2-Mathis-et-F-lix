@@ -43,7 +43,7 @@ class Impex:
             csv_writer.writerow(
                 ['Email', 'Mot de passe', 'Nom', 'Prénom', 'No. civique', 'Rue', 'Ville', 'Province', 'Pays',
                  'Code postal'])
-
+            # Boucle for pour passer tout les utilisateurs
             for utilisateur in utilisateurs_json:
                 email, mot_de_passe, nom, prenom, adresse = utilisateur
                 no_civique, rue, ville, province, pays, code_postal = adresse
