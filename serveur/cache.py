@@ -7,6 +7,7 @@ Dernière modification : 2023-05-12 12:27:21
 Version 1
 """
 
+# Cache incomplète
 # Création d'une cache pour le serveur
 class CacheServer:
 

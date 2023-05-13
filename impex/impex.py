@@ -13,20 +13,20 @@ import csv
 import json
 
 # Lecture du fichier CSV contenant les utilisateurs, leur type d'utilisateur et leur mot de passe (point 2 consignes impex)
-with open('data/utilisateurs.csv', 'rt') as fichier_utilisateurs:
-    fichier_utilisateurs.read()
+fichier_utilisateurs = open('data/utilisateurs.csv', 'rt')
+fichier_utilisateurs.read()
 
 # Lecture du fichier CSV contenant les chalets (point 3 consignes impex)
-with open('data/chalets.csv', 'rt') as fichier_chalets:
-    fichier_chalets.read()
+fichier_chalets = open('data/chalets.csv', 'rt')
+fichier_chalets.read()
 
 # Lecture du fichier XML contenant les disponibilités des chalets (point 4 consignes impex)
-with open('data/disponibilites.xml', 'rt') as fichier_dispo_chalets:
-    fichier_dispo_chalets.read()
+fichier_dispo_chalets = open('data/disponibilites.xml', 'rt')
+fichier_dispo_chalets.read()
 
 # Lecture du fichier XML contenant les réservations (point 5 consignes impex)
-with open('data/reservations.xml', 'rt') as fichier_reservations:
-    fichier_reservations.read()
+fichier_reservations = open('data/reservations.xml', 'rt')
+fichier_reservations.read()
 
 
 # La classe Impex permet de définir les méthodes d'exportation d'un fichier d'un format vers un autre
@@ -38,7 +38,7 @@ class Impex:
         timestamp = datetime.now()
         nom_fichier = f'export_{timestamp}.csv'
         # Pour ouvrir le fichier en mode écriture
-        with open('users.csv', 'w', newline='') as csv_file:
+        with open('./data/utilisateurs.csv', 'w', newline='') as csv_file:
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(
                 ['Email', 'Mot de passe', 'Nom', 'Prénom', 'No. civique', 'Rue', 'Ville', 'Province', 'Pays',
