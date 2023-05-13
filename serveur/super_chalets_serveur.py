@@ -59,6 +59,7 @@ class SuperChalet:
 
         return id
 
+    # Méthode pour obtenir le email d'un utilisateur associé à une réservation
     def obtenirEmailReservation(self, email):
         if email not in self.__utilisateurs:
             raise ValueError("Aucun utilisateur n'a le courriel suivant:" + email)
@@ -112,17 +113,19 @@ class SuperChalet:
         else:
             self.__chalets = self.__chalets.append([id, nom, url_image, [longitude, latitude]])
 
+    # Méthode pour obtenir les informations sur un chalet
     def infoChalet(self, id):
         for chalet in self.chalets:
             if id == chalet["id"]:
                 return chalet
 
-
+# Classe permettant de gérer les requêtes envoyées par le client
 class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
     super_chalet = SuperChalet()
     chalets = super_chalet.chalets
     utilisateurs = super_chalet.utilisateurs
 
+    # Point d'entrée pour toutes les requêtes de type GET
     def do_GET(self):
         headers = self.headers
         path = self.path
