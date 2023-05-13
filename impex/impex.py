@@ -69,6 +69,11 @@ def executerJson(fichier_reservations):
 def executerCsv(fichier_reservations):
     Impex.export_csv(fichier_reservations)
 
+def executer(fichier_reservation):
+
+    executerCsv(fichier_reservations)
+    executerJson(fichier_reservations)
+
 
 # TODO : @Felix - Fonction (pas une méthode)  `def executer()` qui contient le code à appeler pour l'import des données vers le serveur
 
