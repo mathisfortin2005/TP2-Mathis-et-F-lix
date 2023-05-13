@@ -11,6 +11,8 @@ Version 1
 import client
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import os
+import gzip
 
 # Création de la classe Réservation qui sert à créer des objets réservations
 import client
@@ -28,7 +30,7 @@ class SuperChalet:
     # Méthodes GETTER ET SETTER
     @property
     def chalets(self):
-        return self.__chalet
+        return self.__chalets
 
     @chalets.setter
     def chalets(self, x):
@@ -37,21 +39,20 @@ class SuperChalet:
 
     @property
     def utilisateurs(self):
-        return self.__utilisateur
+        return self.__utilisateurs
 
     @property
     def plage(self):
         return self.__plages
 
-    @plages.setter
-    def plages(self, x):
+    @plage.setter
+    def plage(self, x):
         self.__plages = x
-        pass
 
     # Méthode pour obtenir les informations d'une réservation
     def obtenirInfosReservation(self, id):
         id = None
-        file = f'./voute/{reservation_id}.res.gz'
+        file = f'./voute/{id}.res.gz'
         if os.path.exists(file):
             with gzip.open(file, 'rb') as info:
                 inforeservations = info.read()
