@@ -6,388 +6,209 @@ Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée obj
 Dernière modification : 2023-05-12 12:27:21
 Version 1
 """
-# TODO : Supprimer classes inutiles (en commentaire) lorsque tout sera terminé et fonctionnel
-# FIXME : Est-ce que tout les @property méthodes getter sont nécessaires? NE PAS SUPPRIMER TOUT DE SUITE SVP
 
 # Importation des modules nécessaires au serveur
 import client
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-
 # Création de la classe Réservation qui sert à créer des objets réservations
-class Reservations:
+import client
+import json
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
-    # Constructeur de la classe Reservations
-    def __init__(self, id, chalet, utilisateur, plage):
-        if self.__reservations is None:
-            self.__reservation = []
-        self.__id = id
-        self.__chalet = chalet
-        self.__utilisateur = utilisateur
-        self.__plage = plage
-        self.__reservations = self.__reservations.append([self.__id, self.__chalet, self.__utilisateur, self.__plage])
 
-    # Méthodes GET
+# Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
+class SuperChalet:
+    def __init__(self):
+        self.__utilisateurs = []
+        self.__plages = []
+        self.__chalets = []
+
+    # Méthodes GETTER ET SETTER
     @property
-    def id(self):
-        return self.__id
-
-    @property
-    def chalet(self):
+    def chalets(self):
         return self.__chalet
 
+    @chalets.setter
+    def chalets(self, x):
+        self.__chalets = x
+        pass
+
     @property
-    def utilisateur(self):
+    def utilisateurs(self):
         return self.__utilisateur
 
     @property
     def plage(self):
-        return self.__plage
+        return self.__plages
+
+    @plages.setter
+    def plages(self, x):
+        self.__plages = x
+        pass
 
     # Méthode pour obtenir les informations d'une réservation
-    def obtenir_infosreservation(self, id):
-        for x in range(len(self.__reservations)):  # La variable x sert d'itérateur
-            infosreservation = self.__reservations[x]
-            if infosreservation.index(id) != -1:
-                print("La réservation est :" + infosreservation)
-            elif infosreservation.index(id) == -1:
-                print("Il n'y a pas de réservations")
-            else:
-                print("Les réservations sont" + infosreservation)
-#
+    def obtenirInfosReservation(self, id):
+        id = None
+        file = f'./voute/{reservation_id}.res.gz'
+        if os.path.exists(file):
+            with gzip.open(file, 'rb') as info:
+                inforeservations = info.read()
+                id = json.loads(inforeservations.decode('utf-8'))
 
-    # Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
-    def obtenir_reservations(self, utilisateur):
-        for x in range(len(self.__reservations)):  # La variable x sert d'itérateur
-            infosreservation = self.__reservations[x]
-            if infosreservation.index(utilisateur) != -1:
-                print(infosreservation)
+        return id
 
-    # Méthode pour ajouter une réservation
-    def ajout_reservation(self, id, chalet, utilisateur, plage):
-        if id not in self.__id.keys():
-            raise ValueError('Cette réservation existe déjà')
-        else:
-            self.__reservations = self.__reservations.append([id, chalet, utilisateur, plage])
-
-    # Méthode pour remplacer une réservation
-    def remplacer_reservation(self, id_reservation_a_remplacer):
-        for x in range(len(self.__reservations)):
-            infosreservation = self.__reservations[x]
-            if infosreservation.index(id) != id_reservation_a_remplacer:
-                del(self.__reservations[x])
-                infosreservation.append(id_reservation_a_remplacer)
-
-    # Méthode pour supprimer une réservation
-    def supprimer_reservation(self, id):
-        for x in range(len(self.__reservations)):
-            infosreservation = self.__reservations[x]
-            if infosreservation.index(id) != -1:
-                del(self.__reservations[x])
-
-    # Méthode pour retourner la liste des réservations
-    def liste_reservation(self):
-        return self.__reservations
-
-
-# Créations de la classe Chalets qui sert à créer des objets Chalet
-class Chalets:
-
-    # Constructeur de la classe Chalets
-    def __init__(self, id, nom, url_image, longitude, latitude):
-        if self.__chalets is None:
-            self.__chalets = []
-        self.__id = id
-        self.__nom = nom
-        self.__url_image = url_image
-        self.__longitude = longitude
-        self.__latitude = latitude
-        self.__chalets = self.__chalets.append([self.__id, self.__nom, self.__url_image, [self.__longitude, self.__latitude]])
-
-    # Méthode GET
-    @property
-    def id(self):
-        return self.__id
-
-    @property
-    def nom(self):
-        return self.__nom
-
-    @property
-    def url_image(self):
-        return self.__url_image
-
-    @property
-    def longitude(self):
-        return self.__longitude
-
-    @property
-    def latitude(self):
-        return self.__latitude
-
-    # Méthode pour ajouter une objet Chalet
-    def ajout_chalet(self, id, nom, url_image, longitude, latitude):
-        if id in self.__id and nom in self.__nom and latitude in self.__latitude and longitude in self.__longitude:
-            raise ValueError('Ce chalet existe déjà')
-        else:
-            self.__chalets = self.__chalets.append([id, nom, url_image, [longitude, latitude]])
-
-"""
-# Création de la classe Geolocalisation_Chalet qui sert à créer des objets de position (latitude, longitude)
-class GeolocalisationChalet:
-
-    # Constructeur de la classe Geolocalisation_Chalet
-    def __init__(self, latitude, longitude):
-        self.__latitude = latitude
-        self.__longitude = longitude
-
-    # Méthodes GET
-    @property
-    def latitude(self):
-        return self.__latitude
-
-    @property
-    def longitude(self):
-        return self.__longitude
-"""
-
-
-# Création de la classe Utilisateurs qui sert à créer des objets Utilisateur
-class Utilisateurs:
-
-    # Constructeur de la classe Utilisateurs
-    def __init__(self, email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal):
-        if self.__utilisateurs is None:
-            self.__utilisateurs = []
-        self.__email = email
-        self.__mot_de_passe = hash(mot_de_passe) # Fonction hash pour ne pas sauvegarder le mot de passe directement
-        self.__nom = nom
-        self.__prenom = prenom
-        self.__no_civique = no_civique
-        self.__rue = rue
-        self.__ville = ville
-        self.__province = province
-        self.__pays = pays
-        self.__code_postal = code_postal
-        self.__utilisateurs = self.__utilisateurs.append([email, hash(mot_de_passe), nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
-
-    # Méthodes GET
-    @property
-    def email_utilisateur(self):
-        return self.__email
-
-    @property
-    def mot_de_passe_utilisateur(self):
-        return self.__mot_de_passe
-
-    @property
-    def nom_utilisateur(self):
-        return self.__nom
-
-    @property
-    def prenom_utilisateur(self):
-        return self.__prenom
-
-    @property
-    def no_civique(self):
-        return self.__no_civique
-
-    @property
-    def rue(self):
-        return self.__rue
-
-    @property
-    def ville(self):
-        return self.__ville
-
-    @property
-    def province(self):
-        return self.__province
-
-    @property
-    def pays(self):
-        return self.__pays
-
-    @property
-    def code_postal(self):
-        return self.__code_postal
-
-    # Méthode pour ajouter un objet Utilisateur
-    def ajout_utilisateur(self, email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal):
-        if email in self.__email and nom in self.__nom and prenom in self.__prenom:
-            raise ValueError('Cet utilisateur existe déjà')
-        else:
-            self.__utilisateurs = self.__utilisateurs.append([email, mot_de_passe, nom, prenom, [no_civique, rue, ville, province, pays, code_postal]])
-
-    # Méthode pour obtenir les informations d'un utilisateur
-    def obtenir_infosutilisateur(self, email):
+    def obtenirEmailReservation(self, email):
         if email not in self.__utilisateurs:
             raise ValueError("Aucun utilisateur n'a le courriel suivant:" + email)
         else:
             for x in range(len(self.__utilisateurs)):  # La variable x sert d'itérateur
                 infosutilisateur = self.__utilisateurs[x]
                 if infosutilisateur.index(email) != -1:
-                    print(infosutilisateur)
+                    pass
 
+        return infosutilisateur
 
-"""
-# Création de la classe Adresses qui sert à créer des objets Adresse
-class Adresses:
+    # Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
+    def obtenirReservations(self, utilisateur):
+        for x in range(len(self.__reservations)):  # La variable x sert d'itérateur
+            infosreservation = self.__reservations[x]
+            if infosreservation.index(utilisateur) != -1:
+                return infosreservation
 
-    # Constructeur de la classe Adresses
-    def __init__(self, no_civique, rue, ville, province, pays, code_postal):
-        self.__no_civique = no_civique
-        self.__rue = rue
-        self.__ville = ville
-        self.__province = province
-        self.__pays = pays
-        self.__code_postal = code_postal
-        self.__adresse = [self.__no_civique, self.__rue, self.__ville, self.__province, self.__pays, self.__code_postal]
-
-    # Méthodes GET
-    @property
-    def no_civique(self):
-        return self.__no_civique
-
-    @property
-    def rue(self):
-        return self.__rue
-
-    @property
-    def ville(self):
-        return self.__ville
-
-    @property
-    def province(self):
-        return self.__province
-
-    @property
-    def pays(self):
-        return self.__pays
-
-    @property
-    def code_postal(self):
-        return self.__code_postal
-"""
-
-
-# Création de la classe SuperChalet() qui sert à mettre toutes les classes dans une même classe
-class SuperChalet:
-    Reservations.liste_reservations()
-    Chalets.liste_chalets()
-    Utilisateurs.liste_utilisateurs() # FIXME : liste_reservations, liste_chalets et liste_utilisateurs ne semblent pas fonctionner
-
-
-# Classe permettant de gérer les requêtes envoyées par le client
-class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
-    # Variable de classe
-    super_chalet = SuperChalet()
-# TODO: @Felix - Il faudrait faire des if path.startswith('/enclos/') avec les différents trucs. Même chose pour le do_POST. Il faudrait faire un do_DELETE et un do_PUT aussi (pas eu le temps de travailler sur ça) (J'ai essayé de travailler là-dessus mais rien de concluant)
-
-    # Point d'entrée pour toutes les requêtes de type GET (pour obtenir les informations)
-    def do_GET(self):
-        # self.headers contient tous les entêtes de la requête
-        headers = self.headers
-        # contient le chemin d'accès de la ressource demandé ex: /enclos/...
-        path = self.path
-        # Gère les chemins d'accès (path) de type GET / Reservation / {nom de l'enclos}
-        if path.startswith('/reservation/'):
-            # Permet d'aller chercher le {nom de l'enclos}
-            enclos = path.split('/')[2]
-            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
-            content = 'Réservation: ' + reservation + ' -> ' + str(self.super_chalet.reservations[reservation])
-            # Renvoyer le code 200 pour dire au client que c'est un succès
-            self.send_response(200)
-            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
-            self.end_headers()
-            self.wfile.write(bytes(content, 'utf-8'))
-        elif path.startswith('/utilisateur/'):
-            # permet d'aller chercher le {nom de l'enclos}
-            enclos = path.split('/')[2]
-            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
-            content = 'Utilisateur: ' + utilisateur + ' -> ' + str(self.super_chalet.utilisateur[utilisateur])
-            # Renvoyer le code 200 pour dire au client que c'est un succès
-            self.send_response(200)
-            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
-            self.end_headers()
-            self.wfile.write(bytes(content, 'utf-8'))
-        elif path.startswith('/chalet/'):
-            # permet d'aller chercher le {nom de l'enclos}
-            enclos = path.split('/')[2]
-            # appelle l'objet zoo pour aller chercher le contenu de l'enclos
-            content = 'Chalet: ' + chalet + ' -> ' + str(self.super_chalet.chalet[chalet])
-            # Renvoyer le code 200 pour dire au client que c'est un succès
-            self.send_response(200)
-            # Si on avait des entêtes à renvoyer au client, on les ajouterait avant la prochaine ligne
-            self.end_headers()
-            self.wfile.write(bytes(content, 'utf-8'))
+    # Méthode pour ajouter une réservation
+    def ajoutReservation(self, id, chalet, utilisateur, plage):
+        if id not in self.__id.keys():
+            raise ValueError('Cette réservation existe déjà')
         else:
-            # Gère le cas ou le chemin d'accès n'est pas trouvé
-            # On pourrait aussi gérer les erreurs
-            self.send_response(542, 'enclos non trouve')
+            self.__reservations = self.__reservations.append([id, chalet, utilisateur, plage])
+
+    # Méthode pour remplacer une réservation
+    def remplacerReservation(self, id_reservation_a_remplacer):
+        for x in range(len(self.__reservations)):
+            infosreservation = self.__reservations[x]
+            if infosreservation.index(id) != id_reservation_a_remplacer:
+                del (self.__reservations[x])
+                infosreservation.append(id_reservation_a_remplacer)
+
+    # Méthode pour supprimer une réservation
+    def supprimerReservation(self, id):
+        for x in range(len(self.__reservations)):
+            infosreservation = self.__reservations[x]
+            if infosreservation.index(id) != -1:
+                del (self.__reservations[x])
+
+    # Méthode pour retourner la liste des réservations
+    def listeReservation(self):
+        return self.__reservations
+
+    # Méthode pour ajouter une objet Chalet
+    def ajoutChalet(self, id, nom, url_image, longitude, latitude):
+        if id in self.__id and nom in self.__nom and latitude in self.__latitude and longitude in self.__longitude:
+            raise ValueError('Ce chalet existe déjà')
+        else:
+            self.__chalets = self.__chalets.append([id, nom, url_image, [longitude, latitude]])
+
+    def infoChalet(self, id):
+        for chalet in self.chalets:
+            if id == chalet["id"]:
+                return chalet
+
+
+class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
+    super_chalet = SuperChalet()
+    chalets = super_chalet.chalets
+    utilisateurs = super_chalet.utilisateurs
+
+    def do_GET(self):
+        headers = self.headers
+        path = self.path
+
+        if path.startswith('/reservation/'):
+            path2 = path.split('/')[2]
+            reservation = self.super_chalet.obtenirInfosReservation(path2)
+            email = self.super_chalet.obtenirEmailReservation(path2)
+
+            if reservation != None:
+                body = json.dumps(reservation)
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(bytes(str(body), 'utf-8'))
+                print('Reservation trouve, Reservation : \n' + str(body))
+
+            elif len(email) != 0:
+                body = json.dumps(email)
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(bytes(str(body), 'utf-8'))
+                print("Adresse trouve,  Reservations : \n" + str(body))
+            else:
+                self.send_response(542, 'Chemin Non trouve')
+                self.end_headers()
+
+        elif path.startswith('/chalet/'):
+            path2 = path.split('/')[2]
+            body = self.super_chalet.infoChalet(path2)
+
+            if body != None:
+                body = json.dumps(body)
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(bytes(str(body), 'utf-8'))
+
+            else:
+                self.send_response(542, 'Chalet non trouve')
+                self.end_headers()
+
+        elif path == '/reservation':
+            body = json.dumps(self.super_chalet.listeReservation())
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(bytes(str(body), 'utf-8'))
+            print(body)
+
+        else:
+            self.send_response(542, 'Chemin Non trouve')
             self.end_headers()
 
     # Permet de gérer l'ajout de réservations, de chalets et d'utilisateurs
     def do_POST(self):
-        # Chemin d'accès retourné par la requête
+
         path = self.path
-        # Cas d'ajout d'une réservation POST / reservation
+
         if path == '/reservation':
-            # L'entête content-length contient la longueur du contenu du corps de la requête POST
             content_length = int(self.headers['Content-Length'])
-            # Lecture entiere du corps du POST
-            body = self.rfile.read(content_length)
-            # Lecture du body json vers un dictionnaire Python
-            json_str = json.loads(body)
-            try:
-                # Appel de la méthode de zoo pour ajouter un enclos
-                self.super_chalet.Reservations.ajout_reservation(json_str['réservation'])
-                self.send_response(200)
-            except ValueError:
-                # La méthode de zoo a fait un raise d'une exception
-                self.send_response(542, 'Réservation existante')
-            self.end_headers()
-        # Cas d'ajout d'un utilisateur POST / utilisateur
+            reservations = json.loads(self.rfile.read(content_length))
+
+            if not self.super_chalet.reserveExists(reservations):
+                self.super_chalet.postReservation(reservations)
+                self.send_response(200, 'Plage Ajoute')
+
+            else:
+                self.send_response(542, 'Reservation Deja Existante')
+
         if path == '/utilisateur':
-            # L'entête content-length contient la longueur du contenu du corps de la requête POST
-            content_length = int(self.headers['Content-Length'])
-            # Lecture entiere du corps du POST
-            body = self.rfile.read(content_length)
-            # Lecture du body json vers un dictionnaire Python
-            json_str = json.loads(body)
+
             try:
-                # Appel de la méthode de zoo pour ajouter un enclos
-                self.super_chalet.Utilisateurs.ajout_utilisateur(json_str['utilisateur'])
-                self.send_response(200)
-            except ValueError:
-                # La méthode de zoo a fait un raise d'une exception
-                self.send_response(542, 'Utilisateur existant')
-            self.end_headers()
-        # Cas d'ajout d'un chalet POST / chalet
+                content_length = int(self.headers['Content-Length'])
+                utilisateur = json.loads(self.rfile.read(content_length))
+                self.utilisateurs.append(utilisateur)
+                self.send_response(200, 'Utilisateur Enregistre')
+            except json.JSONDecodeError:
+                self.send_response(542, 'mauvais format')
+
         if path == '/chalet':
-            # L'entête content-length contient la longueur du contenu du corps de la requête POST
-            content_length = int(self.headers['Content-Length'])
-            # lecture entiere du corps du POST
-            body = self.rfile.read(content_length)
-            # Lecture du body json vers un dictionnaire Python
-            json_str = json.loads(body)
+
             try:
-                # Appel de la méthode de zoo pour ajouter un enclos
-                self.super_chalet.Chalets.ajout_chalet(json_str['chalet'])
-                self.send_response(200)
-            except ValueError:
-                # La méthode de zoo a fait un raise d'une exception
-                self.send_response(542, 'Chalet existant')
-            self.end_headers()
+                content_length = int(self.headers['Content-Length'])
+                chalet = json.loads(self.rfile.read(content_length))
+                self.chalets.append(chalet)
+                self.send_response(200, 'chalet Enregistre')
+            except json.JSONDecodeError:
+                self.send_response(542, 'mauvais format')
 
-    # Point d'entrée de toutes les demandes de type PUT (pour modifier un élément)
-    def do_PUT(self):
-        pass
-
-    # Point d'entrée de toutes les demandes de type DELETE (pour supprimer un élément)
-    def do_DELETE(self):
-        pass
+        self.end_headers()
 
 
 # Classe pour utiliser le serveur
