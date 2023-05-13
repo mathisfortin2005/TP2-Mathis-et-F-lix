@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/impex/export_2023-05-12 21:26:54.281482.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/impex/users.csv">
           <value>
             <Attribute>

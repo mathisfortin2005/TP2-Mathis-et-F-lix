@@ -39,22 +39,22 @@ class Impex:
         nom_fichier = f'export_{timestamp}.csv'
         # Pour ouvrir le fichier en mode écriture
         with open('./data/utilisateurs.csv', 'w', newline='') as csv_file:
-            csv_writer = csv.writer(csv_file)
-            csv_writer.writerow(
-                ['Email', 'Mot de passe', 'Nom', 'Prénom', 'No. civique', 'Rue', 'Ville', 'Province', 'Pays',
-                 'Code postal'])
-            # Boucle for pour passer tout les utilisateurs
-            for utilisateur in utilisateurs_json:
-                email, mot_de_passe, nom, prenom, adresse = utilisateur
-                no_civique, rue, ville, province, pays, code_postal = adresse
+            with open (nom_fichier, 'w'):
+                csv_writer = csv.writer(csv_file)
                 csv_writer.writerow(
+                    ['Email', 'Mot de passe', 'Nom', 'Prénom', 'No. civique', 'Rue', 'Ville', 'Province', 'Pays','Code postal'])
+                # Boucle for pour passer tout les utilisateurs
+                for utilisateur in utilisateurs_json:
+                    email, mot_de_passe, nom, prenom, adresse = utilisateur
+                    no_civique, rue, ville, province, pays, code_postal = adresse
+                    csv_writer.writerow(
                     [email, mot_de_passe, nom, prenom, no_civique, rue, ville, province, pays, code_postal])
 
     @staticmethod
     # Méthode statique pour exporter les données d'un objet JSON "reservation" dans un fichier "export_{timestamp}.xml" dans le format XML
     def exportJson(reservations_csv):
         # Pour créer le fichier
-        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        timestamp = datetime.now()
         nom_fichier = f'export_{timestamp}.json'
         # Pour ouvrir le fichier en mode écriture
         with open(nom_fichier, 'w') as fichier_json:
