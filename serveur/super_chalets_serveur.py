@@ -68,7 +68,7 @@ class SuperChalet:
                 if infosutilisateur.index(email) != -1:
                     pass
 
-        return infosutilisateur
+            return infosutilisateur
 
     # Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
     def obtenirReservations(self, utilisateur):
