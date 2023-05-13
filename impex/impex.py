@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-12 20:44:07
+Dernière modification : 2023-05-12 21:01:36
 Version 1
 """
 
@@ -65,9 +65,11 @@ class Impex:
 def executerJson(fichier_reservations):
     Impex.exportJson(fichier_reservations)
 
+
 # Fonction qui permet d'exporter les données en CSV vers le serveur
 def executerCsv(fichier_reservations):
     Impex.exportCsv(fichier_reservations)
+
 
 # Fonction qui contient le code à appeler pour l'import des données vers le serveur
 def executer(fichier_reservations):
