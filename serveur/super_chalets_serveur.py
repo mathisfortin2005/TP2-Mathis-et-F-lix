@@ -68,14 +68,16 @@ class SuperChalet:
                 if infosutilisateur.index(email) != -1:
                     pass
 
-        return infosutilisateur
+            return infosutilisateur
 
     # Méthode pour obtenir les informations sur toutes les réservations d'un utilisateur
     def obtenirReservations(self, utilisateur):
         for x in range(len(self.__reservations)):  # La variable x sert d'itérateur
             infosreservation = self.__reservations[x]
             if infosreservation.index(utilisateur) != -1:
-                return infosreservation
+                pass
+
+            return infosreservation
 
     # Méthode pour ajouter une réservation
     def ajoutReservation(self, id, chalet, utilisateur, plage):
