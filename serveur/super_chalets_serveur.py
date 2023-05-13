@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-12 12:27:21
+Dernière modification : 2023-05-12 20:44:07
 Version 1
 """
 
@@ -150,13 +150,11 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         elif path.startswith('/chalet/'):
             path2 = path.split('/')[2]
             body = self.super_chalet.infoChalet(path2)
-
             if body != None:
                 body = json.dumps(body)
                 self.send_response(200)
                 self.end_headers()
                 self.wfile.write(bytes(str(body), 'utf-8'))
-
             else:
                 self.send_response(542, 'Chalet non trouve')
                 self.end_headers()
@@ -180,16 +178,13 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         if path == '/reservation':
             content_length = int(self.headers['Content-Length'])
             reservations = json.loads(self.rfile.read(content_length))
-
             if not self.super_chalet.reserveExists(reservations):
                 self.super_chalet.postReservation(reservations)
                 self.send_response(200, 'Plage Ajoute')
-
             else:
                 self.send_response(542, 'Reservation Deja Existante')
 
         if path == '/utilisateur':
-
             try:
                 content_length = int(self.headers['Content-Length'])
                 utilisateur = json.loads(self.rfile.read(content_length))
@@ -199,7 +194,6 @@ class TPBaseHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.send_response(542, 'mauvais format')
 
         if path == '/chalet':
-
             try:
                 content_length = int(self.headers['Content-Length'])
                 chalet = json.loads(self.rfile.read(content_length))
