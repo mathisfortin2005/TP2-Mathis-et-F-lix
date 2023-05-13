@@ -35,7 +35,7 @@ class Impex:
     # Méthode statique pour exporter les données d'un objet JSON "utilisateur" dans un fichier "export_{timestamp}.csv" dans le format CSV
     def exportCsv(utilisateurs_json):
         # Pour créer un nom de fichier en fonction du temps
-        timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
+        timestamp = datetime.now()
         nom_fichier = f'export_{timestamp}.csv'
         # Pour ouvrir le fichier en mode écriture
         with open(nom_fichier, 'w', newline='') as fichier_csv:
@@ -54,7 +54,7 @@ class Impex:
     # Méthode statique pour exporter les données d'un objet JSON "reservation" dans un fichier "export_{timestamp}.xml" dans le format XML
     def exportJson(reservations_csv):
         # Pour créer un nom de fichier en fonction du temps
-        timestamp = datetime.time().strftime("%Y-%m-%d_%H-%M-%S")
+        timestamp = datetime.now()
         nom_fichier = f'export_{timestamp}.json'
         # Pour ouvrir le fichier en mode écriture
         with open(nom_fichier, 'w', newline='') as fichier_json:
@@ -63,11 +63,11 @@ class Impex:
 
 # Fonction qui permet d'exporter les données en JSON vers le serveur
 def executerJson(fichier_reservations):
-    Impex.export_json(fichier_reservations)
+    Impex.exportJson(fichier_reservations)
 
 # Fonction qui permet d'exporter les données en CSV vers le serveur
 def executerCsv(fichier_reservations):
-    Impex.export_csv(fichier_reservations)
+    Impex.exportCsv(fichier_reservations)
 
 # Fonction qui contient le code à appeler pour l'import des données vers le serveur
 def executer(fichier_reservation):
