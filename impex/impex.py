@@ -70,11 +70,10 @@ def executerCsv(fichier_reservations):
     Impex.exportCsv(fichier_reservations)
 
 # Fonction qui contient le code à appeler pour l'import des données vers le serveur
-def executer(fichier_reservation):
+def executer(fichier_reservations):
     executerCsv(fichier_reservations)
     executerJson(fichier_reservations)
 
 
 # Pour que le code se réalise
-executerJson(fichier_reservations)
-executerCsv(fichier_reservations)
+executer(fichier_reservations)
