@@ -3,7 +3,7 @@ TP2
 Noms : Mathis Fortin et Félix Chamberland
 Groupe : 00002
 Travail réalisé dans le cadre du cours "420 SD2-HY Programmation orientée objet" donné par M. Pier Luc Ducharme
-Dernière modification : 2023-05-12 21:01:36
+Dernière modification : 2023-05-12 21:30:00
 Version 1
 """
 
@@ -43,7 +43,7 @@ class Impex:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerow(
                     ['Email', 'Mot de passe', 'Nom', 'Prénom', 'No. civique', 'Rue', 'Ville', 'Province', 'Pays','Code postal'])
-                # Boucle for pour passer tout les utilisateurs
+                # Boucle for pour passer tous les utilisateurs
                 for utilisateur in utilisateurs_json:
                     email, mot_de_passe, nom, prenom, adresse = utilisateur
                     no_civique, rue, ville, province, pays, code_postal = adresse
